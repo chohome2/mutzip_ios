@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface DetailViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface DetailViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate,MFMessageComposeViewControllerDelegate>
 
+@property (nonatomic, strong) NSDictionary *shopDict;
 @end

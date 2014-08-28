@@ -7,6 +7,7 @@
 //
 
 #import "DetailExtraInfoCell.h"
+#import "ShopModel.h"
 
 @implementation DetailExtraInfoCell
 
@@ -15,6 +16,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
     }
     return self;
 }
@@ -28,4 +30,14 @@
 }
 */
 
+- (void)drawCell {
+    /*
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.lineSpacing = 4;
+    self.infoTextView.attributedText = [[NSAttributedString alloc]
+                                        initWithString:[[ShopModel sharedManager] getShopDetailInfo]
+                                        attributes:@{NSParagraphStyleAttributeName : style}];
+     */
+    self.infoTextView.text = [[ShopModel sharedManager] getShopDetailInfo];
+}
 @end

@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailImageCell : UICollectionViewCell<UIScrollViewDelegate>
+@interface DetailImageCell : UICollectionViewCell<UIScrollViewDelegate> {
+    NSArray *array;
+    int page;
+}
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIImageView *popupImageView;
 @property (strong, nonatomic) IBOutlet UILabel *shopLabel;
 @property (strong, nonatomic) IBOutlet UILabel *pageLabel;
+@property (strong, nonatomic) IBOutlet UILabel *likeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *myStyleButton;
 
 - (void)drawCell;
 @end

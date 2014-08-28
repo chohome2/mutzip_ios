@@ -22,18 +22,25 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="market Liberty" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5J0-Z3-cP5">
-                        <rect key="frame" x="60" y="186" width="82" height="19"/>
+                        <rect key="frame" x="7" y="186" width="135" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                         <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="iB2-yQ-crv">
+                        <rect key="frame" x="67" y="86" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="color" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <size key="customSize" width="301" height="206"/>
             <connections>
                 <outlet property="itemImageView" destination="EJy-Wl-yEP" id="SpI-wx-a1t"/>
+                <outlet property="loadingIndicator" destination="iB2-yQ-crv" id="fbg-SM-Az7"/>
+                <outlet property="shopNameLabel" destination="5J0-Z3-cP5" id="Fwk-vs-lSg"/>
             </connections>
         </collectionViewCell>
     </objects>

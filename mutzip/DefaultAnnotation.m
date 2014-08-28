@@ -10,12 +10,12 @@
 
 @implementation DefaultAnnotation
 
--(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title isFavorite:(NSNumber *)isFavorite{
+-(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title grade:(NSString *)grade{
     if ((self = [super init])) {
         self.coordinate =coordinate;
         self.title = title;
         self.subtitle = title;
-        self.isFavorite = isFavorite;
+        self.grade = grade;
     }
     return self;
 }

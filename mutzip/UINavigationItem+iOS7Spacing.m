@@ -65,7 +65,6 @@
 
 + (void)mk_swizzle:(SEL)aSelector
 {
-    NSLog(@"###category run");
     SEL bSelector = NSSelectorFromString([NSString stringWithFormat:@"mk_%@", NSStringFromSelector(aSelector)]);
     
     Method m1 = class_getInstanceMethod(self, aSelector);
@@ -76,7 +75,6 @@
 
 + (void)load
 {
-    NSLog(@"@@@category run");
     [self mk_swizzle:@selector(setLeftBarButtonItem:)];
     [self mk_swizzle:@selector(setLeftBarButtonItems:)];
     [self mk_swizzle:@selector(setRightBarButtonItem:)];

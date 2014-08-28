@@ -123,51 +123,84 @@
                         <outlet property="collectionView" destination="zix-kX-Shm" id="vQm-dc-5BM"/>
                         <segue destination="pjZ-oW-31V" kind="push" identifier="pushDetailView" id="R50-Su-531"/>
                         <segue destination="rab-u9-nYv" kind="modal" identifier="modalMapViewFromMainView" id="H5J-hy-Ifh"/>
+                        <segue destination="eVR-ma-I8G" kind="push" identifier="pushSearchViewFromMainView" id="Hml-x1-skD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="487" y="-341"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="6bR-fi-Ncd">
+        <!--Search Shop Table View Controller-->
+        <scene sceneID="ipG-TH-DDK">
             <objects>
-                <viewController id="k4c-Ep-Jw7" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ixh-R2-TmO"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hso-AH-iEL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bJP-Ng-jrf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" text="" placeholder="search" translatesAutoresizingMaskIntoConstraints="NO" id="jYz-I7-Yky">
-                                <rect key="frame" x="0.0" y="18" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="k4c-Ep-Jw7" id="UIe-kA-QcH"/>
-                                </connections>
-                            </searchBar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                <tableViewController id="eVR-ma-I8G" customClass="SearchShopTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="72" sectionHeaderHeight="22" sectionFooterHeight="22" id="rfk-QT-qt4">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="scaleToFill" text="" placeholder="찾고싶은 매장명을 입력하세요" translucent="NO" id="0ny-8G-bQG">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="eVR-ma-I8G" id="Zzj-DY-lYS"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SEARCHCELL" rowHeight="60" id="6UY-RW-QIF">
+                                <rect key="frame" x="0.0" y="66" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6UY-RW-QIF" id="7uw-c7-wbN">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlD-oC-V2e">
+                                            <rect key="frame" x="20" y="10" width="228" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LrD-fH-ntZ">
+                                            <rect key="frame" x="20" y="30" width="228" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEv-v4-0pO">
+                                            <rect key="frame" x="227" y="19" width="82" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="eVR-ma-I8G" id="5kg-m5-Ws1"/>
+                            <outlet property="delegate" destination="eVR-ma-I8G" id="pry-Ua-XaW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="6zw-qn-ZZk"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="m2u-Fy-Kvu" id="455-0u-Vy2"/>
+                        <outlet property="searchDisplayController" destination="Kv5-bP-YLx" id="ra7-eW-Rfc"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eNI-yY-dBr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="m2u-Fy-Kvu">
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1fK-SS-tXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController searchResultsTitle="" id="Kv5-bP-YLx">
                     <connections>
-                        <outlet property="delegate" destination="k4c-Ep-Jw7" id="5cm-18-iht"/>
-                        <outlet property="searchBar" destination="jYz-I7-Yky" id="sjp-nb-6R0"/>
-                        <outlet property="searchContentsController" destination="k4c-Ep-Jw7" id="edS-vW-waH"/>
-                        <outlet property="searchResultsDataSource" destination="k4c-Ep-Jw7" id="soC-l7-axi"/>
-                        <outlet property="searchResultsDelegate" destination="k4c-Ep-Jw7" id="4O9-Go-7fk"/>
+                        <outlet property="delegate" destination="eVR-ma-I8G" id="y9q-NK-25k"/>
+                        <outlet property="searchBar" destination="0ny-8G-bQG" id="zaV-WI-T4D"/>
+                        <outlet property="searchContentsController" destination="eVR-ma-I8G" id="qQO-uk-Iiu"/>
+                        <outlet property="searchResultsDataSource" destination="eVR-ma-I8G" id="PtQ-T4-idS"/>
+                        <outlet property="searchResultsDelegate" destination="eVR-ma-I8G" id="S50-XL-ihL"/>
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="195" y="332"/>
+            <point key="canvasLocation" x="480" y="404"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="WOF-eP-MCz">
@@ -186,7 +219,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <navigationItem id="Y9H-GZ-3rd">
+                                    <navigationItem title="Map" id="Y9H-GZ-3rd">
                                         <barButtonItem key="leftBarButtonItem" id="jEt-YG-P45">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hGJ-yd-obD">
                                                 <rect key="frame" x="16" y="2" width="40" height="40"/>
@@ -224,7 +257,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1079" y="417"/>
+            <point key="canvasLocation" x="1315" y="509"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="r6w-Jq-dvT">
@@ -257,7 +290,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recommended Shop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="is6-XY-D4O">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recommend Shop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="is6-XY-D4O">
                                             <rect key="frame" x="79" y="0.0" width="163" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -284,11 +317,12 @@
                     <connections>
                         <outlet property="collectionView" destination="5KZ-KP-Np5" id="MbF-fi-vyw"/>
                         <segue destination="rab-u9-nYv" kind="modal" identifier="modalMapViewFromDetailView" id="b5O-ha-whS"/>
+                        <segue destination="eVR-ma-I8G" kind="push" identifier="pushSearchViewFromDetailView" id="sy7-EO-U1K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anv-Va-1VG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1021" y="-349"/>
+            <point key="canvasLocation" x="1325" y="-341"/>
         </scene>
     </scenes>
     <resources>
@@ -304,6 +338,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="b5O-ha-whS"/>
+        <segue reference="Hml-x1-skD"/>
+        <segue reference="H5J-hy-Ifh"/>
     </inferredMetricsTieBreakers>
 </document>

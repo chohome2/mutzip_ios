@@ -12,6 +12,15 @@
 #import "ListSmallCell.h"
 #import "SVProgressHUD.h"
 #import "MapViewController.h"
+#import "DetailViewController.h"
+#import "SearchShopTableViewController.h"
+#import "AFNetworking.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIButton+WebCache.h>
+#import "MainImageModel.h"
+#import "MapModel.h"
+#import "ShopModel.h"
+#import "MainImageModel.h"
 
 @interface ViewController ()
 
@@ -29,7 +38,15 @@
 {
     [super viewDidLoad];
     
+    //릴리즈 전에 지울 것
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+    
+    
     isListView = YES;
+    
+    //네비게이션 바위에 올라가는 아이템들
     UIImageView *titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 61, 22)];
     titleImageView.image = [UIImage imageNamed:@"main_actionbar_title.png"];
     UIBarButtonItem *titleItem = [[UIBarButtonItem alloc] initWithCustomView:titleImageView];
@@ -52,43 +69,80 @@
     
     [self.navigationItem setRightBarButtonItems:@[searchButtonItem,mapButtonItem,flipButtonItem] animated:YES];
   
-    array = @[@"sample01.png",@"sample02.png",@"sample03.png",@"sample04.png",@"sample05.png",@"sample06.png",@"sample07.png",@"sample08.png",@"sample09.png",@"sample10.png",@"sample01.png",@"sample02.png",@"sample03.png",@"sample04.png",@"sample05.png",@"sample06.png",@"sample07.png",@"sample08.png",@"sample09.png",@"sample10.png",@"sample01.png",@"sample02.png",@"sample03.png",@"sample04.png",@"sample05.png",@"sample06.png",@"sample07.png",@"sample08.png",@"sample09.png",@"sample10.png"];
     
-    for(int i = 3; i<=10; i++ ) {
-        //NSLog(@"%@",[NSString stringWithFormat:@"sample%2d.png",i]);
-        UIImageView *cacheImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"sample%02d.png",i]]];
-        cacheImageView.frame = CGRectMake(0, 0, 0, 0);
-        [self.view addSubview:cacheImageView];
-    }
-    
+    //collectionView에서 사용할 두개의 Cell 등록
     [self.collectionView registerNib:[UINib nibWithNibName:@"ListLargeCell" bundle:nil] forCellWithReuseIdentifier:@"LARGECELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"ListSmallCell" bundle:nil] forCellWithReuseIdentifier:@"SMALLCELL"];
     
+    
+    //현재 본인 위치정보 얻어오기
     manager = [[CLLocationManager alloc] init];
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
     [manager startUpdatingLocation];
     
+    
+    //네비게이션바 show/hide용 설정
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.tintColor = [UIColor grayColor];
     [self followScrollView:self.collectionView];
     
-    /*self.navigationController.navigationBar.backIndicatorImage = [[UIImage imageNamed:@"detail_actionbar_icon_back.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = [[UIImage imageNamed:@"detail_actionbar_icon_back.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-*/
-    self.navigationController.navigationBar.topItem.title = @"";
-    //[[UINavigationBar appearance] setBarTintColor:RGB(55, 55, 255)];
-    //[self.navigationController.navigationBar setBarTintColor:RGB(0, 0, 255)];
     
+    //backButton 타이틀 지움
+    self.navigationController.navigationBar.topItem.title = @"";
+    
+    
+    //지도뷰에서 디테이블뷰로 푸시용 notification 등록
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(pushToDetailViewFromMapView:)
                                                  name:@"pushToDetailViewFromMapView"
                                                object:nil];
+    
+    //like 터치시 컬렉션뷰 리로드
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadViewByMyStyle:)
+                                                 name:@"reloadViewByMyStyle"
+                                               object:nil];
+    
+    //최초 데이터 로딩, 메인페이지용 이미지목록과 지도데이터 수신
+    [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+    AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
+    dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    NSLog(@"%@",BASE_REST_URL_MAIN);
+    [dataManager GET:BASE_REST_URL_MAIN parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        //mainImageModel에 메인노출이미지목록 저장
+        [[MainImageModel sharedManager] setMainImageList:responseObject[@"data"]];
+        
+        array = [[MainImageModel sharedManager] getMainImageList];
+        [self.collectionView reloadData];
+        [SVProgressHUD popActivity];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [SVProgressHUD popActivity];
+        //데이터 수신 실패 시, 대응 필요
+    }];
+    
+    //지도데이터용 api 호출
+    [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+    AFHTTPRequestOperationManager *mapManager = [AFHTTPRequestOperationManager manager];
+    mapManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    [mapManager GET:BASE_REST_URL_MAP parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        [[MapModel sharedManager] setMapList:responseObject[@"data"]];
+        
+        [SVProgressHUD popActivity];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [SVProgressHUD popActivity];
+        //데이터 수신 실패 시, 대응 필요
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setAlpha:1.0];
+    [self showNavBarAnimated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -114,39 +168,34 @@
 
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if(isListView) {
-        ListLargeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LARGECELL" forIndexPath:indexPath];
+        ListLargeCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"LARGECELL" forIndexPath:indexPath];
         
-        cell.isFront = [NSNumber numberWithBool:YES];
-        cell.imageName = [array objectAtIndex:indexPath.row];
-        cell.itemImageView.image = [UIImage imageNamed:[array objectAtIndex:indexPath.row]];
-        cell.itemImageView.layer.borderWidth = 0.5f;
-        cell.itemImageView.layer.borderColor = RGB(172,172,172).CGColor;
+        NSLog(@"draw LARGECELL!!!!");
+        //list view cell 그리기
+        NSDictionary *imageDict = [array objectAtIndex:indexPath.row];
         
-        cell.flipButton.layer.borderWidth = 2.0f;
-        cell.flipButton.layer.borderColor = RGB(255, 255, 255).CGColor;
-        cell.flipButton.layer.cornerRadius = cell.flipButton.bounds.size.width / 2.0;
-        [cell.flipButton setBackgroundImage:[UIImage imageNamed:@"sample-circle1.png"] forState:UIControlStateNormal];
-        
+        [cell drawCell:imageDict];
         return cell;
     }
     else {
-        ListSmallCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SMALLCELL" forIndexPath:indexPath];
-        cell.itemImageView.image = [UIImage imageNamed:[array objectAtIndex:indexPath.row]];
+        ListSmallCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"SMALLCELL" forIndexPath:indexPath];
+        
+        //small cell 그리기 시작
+        NSDictionary *imageDict = [array objectAtIndex:indexPath.row];
+        cell.shopNameLabel.text = imageDict[@"name_main"];
+        [cell.itemImageView sd_setImageWithURL:[NSURL URLWithString:imageDict[@"image_url"]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            cell.loadingIndicator.hidden = YES;
+            cell.itemImageView.alpha = 0.0;
+            [UIView animateWithDuration:0.4 animations:^{
+                cell.itemImageView.alpha = 1.0;
+            }];
+        }];
         cell.itemImageView.layer.borderWidth = 0.5f;
         cell.itemImageView.layer.borderColor = RGB(172,172,172).CGColor;
         return cell;
     }
     
     return nil;
-    /*
-    UICollectionViewCell *cell = nil;
-    if(isListView) {
-        cell = [self getLargeCellWithCollectionView:collectionView cellForItemAtIndexPath:indexPath];
-    }
-    else {
-        cell = [self getSmallCellWithCollectionView:collectionView cellForItemAtIndexPath:indexPath];
-    }
-    return cell;*/
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -160,11 +209,28 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self showNavBarAnimated:NO];
-    NSLog(@"select!! : %ld",(long)indexPath.row);
-    [self performSegueWithIdentifier:@"pushDetailView" sender:self];
+    [self getShopAndPushToDetailViewWithShopId:[[array objectAtIndex:indexPath.row] objectForKey:@"shop_id"] imageId:[[array objectAtIndex:indexPath.row] objectForKey:@"image_id"]];
 }
 
+- (void)getShopAndPushToDetailViewWithShopId:(NSString *)shopId imageId:(NSString *)imageId {
+    [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+    AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
+    dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    [dataManager GET:BASE_REST_URL_SHOP(shopId) parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        
+        [[ShopModel sharedManager] setShop:responseObject];
+        [[ShopModel sharedManager] setCurrentImageId:imageId];
+        [self showNavBarAnimated:NO];
+        [self performSegueWithIdentifier:@"pushDetailView" sender:responseObject];
+        
+        [SVProgressHUD popActivity];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [SVProgressHUD popActivity];
+        //데이터 수신 실패 시, 대응 필요
+    }];
+}
 
 #pragma mark - LocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -185,7 +251,7 @@
 
 -(void)modalSearchView
 {
-    [SVProgressHUD showSuccessWithStatus:@"검색화면으로 이동"];
+    [self performSegueWithIdentifier:@"pushSearchViewFromMainView" sender:nil];
 }
 
 -(void)flipView
@@ -207,13 +273,23 @@
         MapViewController *mapViewController = [segue destinationViewController];
         mapViewController.mode = @"all";
     }
+    else if([[segue identifier] isEqualToString:@"pushDetailView"])
+    {
+        DetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.shopDict = sender;
+    }
+    else if([[segue identifier] isEqualToString:@"pushSearchViewFromMainView"])
+    {
+        SearchShopTableViewController *searchShopTableViewController = [segue destinationViewController];
+        searchShopTableViewController.from = @"main";
+    }
+
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
 {
 	// This enables the user to scroll down the navbar by tapping the status bar.
 	[self showNavbar];
-	
 	return YES;
 }
 
@@ -221,6 +297,13 @@
 #pragma mark - push notification
 
 - (void)pushToDetailViewFromMapView:(NSNotification *) notification {
-    [self performSegueWithIdentifier:@"pushDetailView" sender:self];
+    [self getShopAndPushToDetailViewWithShopId:notification.userInfo[@"shop"] imageId:@""];
 }
+
+- (void)reloadViewByMyStyle:(NSNotification *) notification {
+    NSLog(@"reload!!");
+    array = [[MainImageModel sharedManager] getMainImageList];
+}
+
+
 @end

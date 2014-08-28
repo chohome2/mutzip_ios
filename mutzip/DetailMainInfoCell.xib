@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample13" translatesAutoresizingMaskIntoConstraints="NO" id="Wlf-4w-e7g">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wlf-4w-e7g">
                         <rect key="frame" x="10" y="9" width="65" height="65"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -61,12 +61,16 @@
                         <state key="normal" backgroundImage="detail_icon_more">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="toggleAppendButton:" destination="GXY-gg-z0d" eventType="touchUpInside" id="ESh-hE-Vdu"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
                 <outlet property="appendButton" destination="h8p-h0-BhK" id="ptz-Qw-v50"/>
+                <outlet property="favoriteButton" destination="D0V-d2-M3F" id="pnl-Dg-Ei5"/>
                 <outlet property="logoImageView" destination="Wlf-4w-e7g" id="xIR-mC-MCd"/>
                 <outlet property="mapButton" destination="Hqt-rA-3Y4" id="ciw-Oj-BjD"/>
                 <outlet property="shopLabel" destination="3Wm-ht-zbL" id="nad-HU-Msk"/>
@@ -79,6 +83,5 @@
         <image name="detail_icon_favorite_focus" width="30" height="30"/>
         <image name="detail_icon_map_focus" width="30" height="30"/>
         <image name="detail_icon_more" width="30" height="30"/>
-        <image name="sample13" width="250" height="250"/>
     </resources>
 </document>

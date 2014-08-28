@@ -10,4 +10,7 @@
 
 @interface DetailExtraInfoCell : UICollectionViewCell
 
+@property (strong, nonatomic) IBOutlet UITextView *infoTextView;
+
+- (void)drawCell;
 @end

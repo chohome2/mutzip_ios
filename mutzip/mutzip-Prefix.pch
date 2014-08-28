@@ -17,3 +17,21 @@
 #endif
 
 #define RGB(r, g, b)  [UIColor colorWithRed:((r) / 255.0) green:((g) / 255.0) blue:((b) / 255.0) alpha:1.0]
+
+#ifdef DEBUG
+#define NSLog(fmt,...) NSLog((@"%s[Line %d]" fmt),__PRETTY_FUNCTION__,__LINE__,##__VA_ARGS__)
+#else
+#define NSLog(...)
+#endif
+
+
+#define BASE_REST_URL @"http://1.234.20.163:8080/api"
+
+#define BASE_REST_URL_MAIN [NSString stringWithFormat:@"%@/main/?app_id=%@",BASE_REST_URL,[[[UIDevice currentDevice] identifierForVendor] UUIDString]]
+#define BASE_REST_URL_MAP [NSString stringWithFormat:@"%@/map/",BASE_REST_URL]
+#define BASE_REST_URL_SHOP(shopid) [NSString stringWithFormat:@"%@/shop/%@/recommend/?app_id=%@",BASE_REST_URL,(shopid),[[[UIDevice currentDevice] identifierForVendor] UUIDString]]
+#define BASE_REST_URL_SEARCH [NSString stringWithFormat:@"%@/search/shop/?app_id=%@",BASE_REST_URL,[[[UIDevice currentDevice] identifierForVendor] UUIDString]]
+
+#define BASE_REST_URL_FAVORITE(shopid) [NSString stringWithFormat:@"%@/mobile/%@/favorite/%@/?action=",BASE_REST_URL,[[[UIDevice currentDevice] identifierForVendor] UUIDString],(shopid)]
+#define BASE_REST_URL_LIKE(imageid) [NSString stringWithFormat:@"%@/mobile/%@/like/%@/?action=",BASE_REST_URL,[[[UIDevice currentDevice] identifierForVendor] UUIDString],(imageid)]
+

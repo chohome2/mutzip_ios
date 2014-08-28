@@ -12,9 +12,9 @@
 @interface DefaultAnnotation : NSObject <MKAnnotation>
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * subtitle;
-@property (nonatomic) NSNumber * isFavorite;
+@property (nonatomic, copy) NSString * grade;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate;
 
--(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title isFavorite:(NSNumber *)isFavorite;
+-(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title grade:(NSString *)grade;
 
 @end

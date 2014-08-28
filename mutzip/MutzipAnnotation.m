@@ -10,11 +10,12 @@
 
 @implementation MutzipAnnotation
 
--(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title {
+-(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title grade:(NSString *)grade{
     if ((self = [super init])) {
         self.coordinate =coordinate;
         self.title = title;
         self.subtitle = title;
+        self.grade = grade;
     }
     return self;
 }

@@ -10,5 +10,7 @@
 
 @interface ListSmallCell : UICollectionViewCell
 
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property (strong, nonatomic) IBOutlet UIImageView *itemImageView;
+@property (strong, nonatomic) IBOutlet UILabel *shopNameLabel;
 @end

@@ -12,8 +12,9 @@
 @interface MutzipAnnotation : NSObject <MKAnnotation>
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * subtitle;
+@property (nonatomic, copy) NSString * grade;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate;
 
--(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title;
+-(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title grade:(NSString *)grade;
 
 @end

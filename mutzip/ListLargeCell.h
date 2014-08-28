@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListLargeCell : UICollectionViewCell
+@interface ListLargeCell : UICollectionViewCell {
+    NSMutableDictionary *myImage;
+}
 
 @property (strong, nonatomic) IBOutlet UIImageView *itemImageView;
 @property (strong, nonatomic) IBOutlet UIButton *flipButton;
 @property (strong, nonatomic) NSString *imageName;
+@property (strong, nonatomic) NSString *entireName;
+@property (strong, nonatomic) NSString *buttonName;
 @property (strong, nonatomic) NSNumber *isFront;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property (strong, nonatomic) IBOutlet UILabel *shopNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *likeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *myStyleButton;
 
+- (void)drawCell:(NSDictionary *)imageDict;
 @end

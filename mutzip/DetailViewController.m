@@ -14,6 +14,14 @@
 #import "DetailMainInfoCell.h"
 #import "DetailExtraInfoCell.h"
 #import "MapViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIButton+WebCache.h>
+#import "ShopModel.h"
+#import "MainImageModel.h"
+#import "AFNetworking.h"
+#import "SearchShopTableViewController.h"
+
+
 
 @interface DetailViewController () {
     NSArray *array;
@@ -53,36 +61,47 @@
     [searchButton addTarget:self action:@selector(modalSearchView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *searchButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     
-    [self.navigationItem setRightBarButtonItems:@[searchButtonItem,homeButtonItem] animated:YES];
-    //[self followScrollView:self.detailTableView];
+    //[self.navigationItem setRightBarButtonItems:@[searchButtonItem,homeButtonItem] animated:YES];
+    [self.navigationItem setRightBarButtonItems:@[homeButtonItem] animated:YES];
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"ListLargeCell" bundle:nil] forCellWithReuseIdentifier:@"LARGECELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailImageCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILIMAGECELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailMainInfoCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILMAININFOCELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailExtraInfoCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILEXTRAINFOCELL"];
     
-    array = @[@"sample01.png",@"sample02.png",@"sample03.png",@"sample04.png",@"sample05.png",@"sample06.png",@"sample07.png",@"sample08.png",@"sample09.png",@"sample10.png"];
+
+    array = [[ShopModel sharedManager] getDetailImageList][0][@"recommend_list"];
     self.navigationController.navigationBar.topItem.title = @"";
-    //[self.collectionView setContentOffset:CGPointMake(0, 44) animated:NO];
+    
     isAppend = NO;
     
-
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    /*
-     [self.navigationController.navigationBar setTranslucent:YES];
-    [UIView animateWithDuration:0.3f animations:^{
-        [self.navigationController.navigationBar setAlpha:0.5];}];
-     */
-    //[self.navigationController setNavigationBarHidden:YES animated:YES];
+- (void)viewWillAppear:(BOOL)animated {
+    //가로 플리킹시 collectionView reload
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flickingStylecut:)
+                                                 name:@"flickingStylecut"
+                                               object:nil];
+    
+    //마이스타일 터치시, 컬렉션뷰 리로드
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadDetailViewByMyStyle:)
+                                                 name:@"reloadDetailViewByMyStyle"
+                                               object:nil];
+    //전화버튼 터치시, 전화, 문자 선택용 액션시트 호출
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showActionSheetByContact:)
+                                                 name:@"showActionSheetByContact"
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    //[self showNavBarAnimated:NO];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,7 +120,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (void)modalSearchView {
-    [SVProgressHUD showSuccessWithStatus:@"검색화면으로 이동"];
+    [self performSegueWithIdentifier:@"pushSearchViewFromDetailView" sender:nil];
 }
 
 #pragma mark - CollectionView Delegate
@@ -117,42 +136,55 @@
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
-            DetailImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILIMAGECELL" forIndexPath:indexPath];
+            NSLog(@"cellForItemAtIndexPath : 0");
+            DetailImageCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILIMAGECELL" forIndexPath:indexPath];
+            
             [cell drawCell];
             return cell;
         }
         else if(indexPath.row == 1) {
-            DetailMainInfoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILMAININFOCELL" forIndexPath:indexPath];
+            NSLog(@"cellForItemAtIndexPath : 1");
+            DetailMainInfoCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILMAININFOCELL" forIndexPath:indexPath];
             [cell.appendButton addTarget:self action:@selector(appendExtraCell) forControlEvents:UIControlEventTouchUpInside];
             [cell.mapButton addTarget:self action:@selector(modalMapView) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell drawCell];
             return cell;
         }
         else if(indexPath.row == 2) {
-            DetailExtraInfoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILEXTRAINFOCELL" forIndexPath:indexPath];
+            DetailExtraInfoCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILEXTRAINFOCELL" forIndexPath:indexPath];
+            [cell drawCell];
             return cell;
         }
     }
-    ListLargeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LARGECELL" forIndexPath:indexPath];
     
-    cell.isFront = [NSNumber numberWithBool:YES];
-    cell.imageName = [array objectAtIndex:indexPath.row];
-    cell.itemImageView.image = [UIImage imageNamed:[array objectAtIndex:indexPath.row]];
-    cell.itemImageView.layer.borderWidth = 0.5f;
-    cell.itemImageView.layer.borderColor = RGB(172,172,172).CGColor;
+    ListLargeCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"LARGECELL" forIndexPath:indexPath];
+    NSDictionary *imageDict = [array objectAtIndex:indexPath.row];
     
-    cell.flipButton.layer.borderWidth = 2.0f;
-    cell.flipButton.layer.borderColor = RGB(255, 255, 255).CGColor;
-    cell.flipButton.layer.cornerRadius = cell.flipButton.bounds.size.width / 2.0;
-    [cell.flipButton setBackgroundImage:[UIImage imageNamed:@"sample-circle1.png"] forState:UIControlStateNormal];
-    
+    [cell drawCell:imageDict];
     return cell;
     
 }
 
 - (void)appendExtraCell {
+    NSLog(@"press append button!!!");
+    
     isAppend = isAppend?NO:YES;
-    [self.collectionView reloadData];
+    
+    if(!isAppend && self.collectionView.contentOffset.y < 124) {
+        [self.collectionView reloadData];
+    }
+    else {
+        [self.collectionView performBatchUpdates:^{
+            [self.collectionView reloadData];
+        } completion:^(BOOL finished) {
+            if(self.collectionView.contentOffset.y < 81) {
+                [self.collectionView setContentOffset:CGPointMake(0, 82) animated:YES];
+            }
+        }];
+    }
+    
+    NSLog(@"%f",self.collectionView.contentOffset.y);
+    //[self.collectionView reloadData];
 }
 
 - (void)modalMapView {
@@ -164,6 +196,11 @@
     {
         MapViewController *mapViewController = [segue destinationViewController];
         mapViewController.mode = @"shop";
+    }
+    else if([[segue identifier] isEqualToString:@"pushSearchViewFromDetailView"])
+    {
+        SearchShopTableViewController *searchShopTableViewController = [segue destinationViewController];
+        searchShopTableViewController.from = @"detail";
     }
 }
 
@@ -187,8 +224,26 @@
 
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 1)
-        [self pushToDetailView];
+    if(indexPath.section == 1){
+        [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+        AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
+        dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+        [dataManager GET:BASE_REST_URL_SHOP(array[indexPath.row][@"shop_id"]) parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            //NSLog(@"%@",responseObject);
+            
+            [[ShopModel sharedManager] setShop:responseObject];
+            [[ShopModel sharedManager] setCurrentImageId:array[indexPath.row][@"image_id"]];
+            [self showNavBarAnimated:NO];
+            [SVProgressHUD popActivity];
+            [self pushToDetailView];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            [SVProgressHUD popActivity];
+            //데이터 수신 실패 시, 대응 필요
+        }];
+    }
+        
+
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -204,6 +259,59 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if(section == 0) return CGSizeZero;
     return CGSizeMake(320,35);
+}
+
+#pragma mark - push notification
+
+- (void)flickingStylecut:(NSNotification *) notification {
+    //NSLog(@"%@",notification.userInfo[@"image"]);
+    NSLog(@"flickingStyleCut : detailView :  %@", notification.userInfo[@"image"][@"image_id"]);
+    array = notification.userInfo[@"image"][@"recommend_list"];
+    //[self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+    [self.collectionView reloadData];
+}
+
+- (void)reloadDetailViewByMyStyle:(NSNotification *) notification {
+    NSLog(@"reload!!");
+    array = [[MainImageModel sharedManager] getMainImageList];
+    [self.collectionView reloadData];
+}
+
+- (void)showActionSheetByContact:(NSNotification *) notification {
+    NSLog(@"contact!!");
+    UIActionSheet *menu = [[UIActionSheet alloc]
+                           initWithTitle: @"연락수단을 선택하세요"
+                           delegate:self
+                           cancelButtonTitle:@"Cancel"
+                           destructiveButtonTitle:nil
+                           otherButtonTitles:@"전화걸기", @"문자보내기", nil];
+    [menu showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"User Pressed Button %d", buttonIndex);
+    if(buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt://01011112222"]];
+        
+    }
+    else if(buttonIndex == 1) {
+        if ([MFMessageComposeViewController canSendText]) {
+            MFMessageComposeViewController *view = [[MFMessageComposeViewController alloc] init];
+            view.body = @"";
+            view.recipients = [NSArray arrayWithObject:@"123123123"];
+            view.messageComposeDelegate = self;
+            
+            [self presentViewController:view animated:YES completion:nil];
+        }
+    }
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller
+                  didFinishWithResult:(MessageComposeResult)result
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [SVProgressHUD showSuccessWithStatus:@"문자전송이 완료되었습니다."];
 }
 
 @end

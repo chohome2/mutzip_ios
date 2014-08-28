@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailMainInfoCell : UICollectionViewCell
+@interface DetailMainInfoCell : UICollectionViewCell <UIActionSheetDelegate> {
+    CGFloat angle;
+}
+
 @property (strong, nonatomic) IBOutlet UIButton *appendButton;
 @property (strong, nonatomic) IBOutlet UILabel *shopLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (strong, nonatomic) IBOutlet UIButton *mapButton;
+@property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
 
+- (void)drawCell;
 @end

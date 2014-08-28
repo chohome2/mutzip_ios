@@ -10,13 +10,19 @@
 #import <MapKit/MapKit.h>
 #import "DefaultAnnotation.h"
 #import "MutzipAnnotation.h"
+#import <SDWebImage/UIButton+WebCache.h>
+#import "MapModel.h"
+#import "ShopModel.h"
+#import "MyDataModel.h"
 
 @interface MapViewController ()
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
-@implementation MapViewController
+@implementation MapViewController {
+    NSDictionary *mapDict;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,55 +38,39 @@
     [super viewDidLoad];
     
     self.mapView.delegate = self;
+    
+    mapDict = [[MapModel sharedManager] getMapList];
+    
     CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(37.5225221, 127.0227997);
     MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 1000, 1000)];
     
     [self.mapView setRegion:adjustedRegion animated:YES];
     
     if([self.mode isEqualToString:@"all"]) {
-        CLLocationCoordinate2D coordinate1;
-        coordinate1.latitude = 37.5214071;
-        coordinate1.longitude = 127.0226713;
-        DefaultAnnotation *annotation = [[DefaultAnnotation alloc] initWithCoordinate:coordinate1 title:@"Starbucks NY" isFavorite:[NSNumber numberWithBool:YES]];
-        [self.mapView addAnnotation:annotation];
-        
-        CLLocationCoordinate2D coordinate2;
-        coordinate2.latitude = 37.5184215;
-        coordinate2.longitude = 127.0230428;
-        DefaultAnnotation *annotation2 = [[DefaultAnnotation alloc] initWithCoordinate:coordinate2 title:@"Pascal Boyer Gallery" isFavorite:[NSNumber numberWithBool:YES]];
-        [self.mapView addAnnotation:annotation2];
-        
-        CLLocationCoordinate2D coordinate3;
-        coordinate3.latitude = 37.5247657;
-        coordinate3.longitude = 127.0242654;
-        DefaultAnnotation *annotation3 = [[DefaultAnnotation alloc] initWithCoordinate:coordinate3 title:@"Virgin Records" isFavorite:[NSNumber numberWithBool:NO]];
-        [self.mapView addAnnotation:annotation3];
-        
-        CLLocationCoordinate2D coordinate4;
-        coordinate4.latitude = 37.5227657;
-        coordinate4.longitude = 127.0232654;
-        DefaultAnnotation *annotation4 = [[DefaultAnnotation alloc] initWithCoordinate:coordinate4 title:@"Virgin Records" isFavorite:[NSNumber numberWithBool:NO]];
-        [self.mapView addAnnotation:annotation4];
-        
-        CLLocationCoordinate2D coordinate5;
-        coordinate5.latitude = 37.5220657;
-        coordinate5.longitude = 127.0217654;
-        DefaultAnnotation *annotation5 = [[DefaultAnnotation alloc] initWithCoordinate:coordinate5 title:@"Virgin Records" isFavorite:[NSNumber numberWithBool:NO]];
-        [self.mapView addAnnotation:annotation5];
-        
-        CLLocationCoordinate2D coordinate6;
-        coordinate6.latitude = 37.5230657;
-        coordinate6.longitude = 127.0207654;
-        DefaultAnnotation *annotation6 = [[DefaultAnnotation alloc] initWithCoordinate:coordinate6 title:@"Virgin Records" isFavorite:[NSNumber numberWithBool:NO]];
-        [self.mapView addAnnotation:annotation6];
+        for(NSString *shopId in mapDict) {
+            NSDictionary *map = mapDict[shopId];
+            if(([map[@"grade"] isEqualToString:@"WAIT"] || [map[@"grade"] isEqualToString:@"FREE"]) && ![[MyDataModel sharedManager] isFavoriteShop:shopId]) {
+                continue;
+            }
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = [[[map objectForKey:@"location"] objectForKey:@"latitude"] doubleValue];
+            coordinate.longitude = [[[map objectForKey:@"location"] objectForKey:@"longitude"] doubleValue];
+            DefaultAnnotation *annotation = [[DefaultAnnotation alloc] initWithCoordinate:coordinate title:map[@"shop_id"] grade:map[@"grade"]];
+            [self.mapView addAnnotation:annotation];
+        }
     }
     else {
-        CLLocationCoordinate2D coordinate1;
-        coordinate1.latitude = 37.5225221;
-        coordinate1.longitude = 127.0227997;
-        DefaultAnnotation *annotation = [[DefaultAnnotation alloc] initWithCoordinate:coordinate1 title:@"Starbucks NY" isFavorite:[NSNumber numberWithBool:YES]];
+        NSDictionary *shop = [[ShopModel sharedManager] getShop];
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = [shop[@"location"][@"latitude"] floatValue];
+        coordinate.longitude = [shop[@"location"][@"longitude"] floatValue];
+        DefaultAnnotation *annotation = [[DefaultAnnotation alloc] initWithCoordinate:coordinate title:shop[@"shop_id"] grade:shop[@"grade"]];
         [self.mapView addAnnotation:annotation];
         
+        MutzipAnnotation *mutzipAnnotation =
+        [[MutzipAnnotation alloc] initWithCoordinate:coordinate title:shop[@"shop_id"] grade:shop[@"grade"]];
+        [self.mapView addAnnotation:mutzipAnnotation];
+        [self gotoLocationWidthCoordination:coordinate];
     }
     NSLog(@"%@",self.mode);
 }
@@ -131,40 +121,59 @@
         
         MKPinAnnotationView *view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:customIdentifier];
         
-        DefaultAnnotation *annotations = (DefaultAnnotation *)annotation;
-        if([annotations.isFavorite boolValue])
+        if([[MyDataModel sharedManager] isFavoriteShop:[annotation title]]) {
             view.image = [UIImage imageNamed:@"map_pin_red.png"];
-        else
+        }
+        else {
             view.image = [UIImage imageNamed:@"map_pin_white.png"];
+        }
+        if([self.mode isEqualToString:@"all"]) {
+            [view setHidden:YES];
+        }
         view.canShowCallout       = NO;  // make sure to turn off standard callout
         return view;
     } else if ([annotation isKindOfClass:[MutzipAnnotation class]]) {
+        NSLog(@"%@",[annotation title]);
+        MutzipAnnotation *annotations = (MutzipAnnotation *)annotation;
+        NSDictionary *map = mapDict[[annotations title]];
+        
         CGSize            size = CGSizeMake(118, 185);
         MKAnnotationView *view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:calloutIdentifier];
         view.frame             = CGRectMake(0.0, 0.0, size.width, size.height);
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_bubble"]];
         
         UIButton *button       = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage imageNamed:@"sample03.png"] forState:UIControlStateNormal];
+        [button sd_setBackgroundImageWithURL:[NSURL URLWithString:map[@"image_map"]] forState:UIControlStateNormal completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            button.alpha = 0.0;
+            [UIView animateWithDuration:0.4 animations:^{
+                button.alpha = 1.0;
+            }];
+        }];
+        [button sd_setBackgroundImageWithURL:[NSURL URLWithString:map[@"image_map"]] forState:UIControlStateHighlighted];
         button.frame           = CGRectMake(8,7,102,136);
         button.layer.borderColor = RGB(172, 172, 172).CGColor;
         button.layer.borderWidth = 0.5f;
-        [button addTarget:self action:@selector(pushToDetailView) forControlEvents:UIControlEventTouchUpInside];
+        button.titleLabel.text = [annotations title];
+        [button addTarget:self action:@selector(pushToDetailView:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *addButton       = [UIButton buttonWithType:UIButtonTypeCustom];
+        
         [addButton setBackgroundImage:[UIImage imageNamed:@"map_icon_favorite.png"] forState:UIControlStateNormal];
+        
         addButton.frame           = CGRectMake(91,148,20,20);
         
         UILabel *koreanTitle = [[UILabel alloc] initWithFrame:CGRectMake(8, 148, 80, 10)];
-        koreanTitle.text = @"마켓리버티";
+        koreanTitle.text = map[@"name_main"];
         koreanTitle.font = [UIFont systemFontOfSize:9];
         
         UILabel *englishTitle = [[UILabel alloc] initWithFrame:CGRectMake(8, 159, 80, 10)];
-        englishTitle.text = @"market Liberty";
+        englishTitle.text = map[@"name_sub"];
         englishTitle.font = [UIFont systemFontOfSize:9];
         [view addSubview:backgroundImageView];
         [view addSubview:button];
-        [view addSubview:addButton];
+        if([[MyDataModel sharedManager] isFavoriteShop:[annotation title]]) {
+            [view addSubview:addButton];
+        }
         [view addSubview:koreanTitle];
         [view addSubview:englishTitle];
         
@@ -176,21 +185,25 @@
     return nil;
 }
 
-- (void)pushToDetailView {
+- (void)pushToDetailView:(id)sender {
+    if([self.mode isEqualToString:@"shop"]) return;
+    UIButton *button = (UIButton *)sender;
+    NSLog(@"!!%@",button.titleLabel.text);
+    
     [self dismissViewControllerAnimated:NO completion:^{
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"pushToDetailViewFromMapView"
-         object:self userInfo:nil];
-
+         object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:button.titleLabel.text,@"shop", nil]];
     }];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    if([view.annotation isKindOfClass:[DefaultAnnotation class]]) {
+    if([view.annotation isKindOfClass:[DefaultAnnotation class]] && view.hidden == NO && [self.mode isEqualToString:@"all"]) {
+        DefaultAnnotation *defaultAnnotation = (DefaultAnnotation *)view.annotation;
         MutzipAnnotation *mutzipAnnotation =
-        [[MutzipAnnotation alloc] initWithCoordinate:[view.annotation coordinate]
-                                                title:[view.annotation title]];
+        [[MutzipAnnotation alloc] initWithCoordinate:[defaultAnnotation coordinate]
+                                                title:[defaultAnnotation title] grade:[defaultAnnotation grade]];
         [self.mapView addAnnotation:mutzipAnnotation];
         dispatch_async(dispatch_get_main_queue(), ^{
             [mapView selectAnnotation:mutzipAnnotation animated:YES];
@@ -203,10 +216,68 @@
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
-    if([view.annotation isKindOfClass:[MutzipAnnotation class]]) {
+    if([view.annotation isKindOfClass:[MutzipAnnotation class]] && [self.mode isEqualToString:@"all"]) {
         [mapView removeAnnotation:view.annotation];
     }
 }
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
+    [self redrawAnnotations];
+}
 
-
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    [self redrawAnnotations];
+}
+- (void)redrawAnnotations {
+    if([self.mode isEqualToString:@"shop"]) return;
+    for(id annotation in self.mapView.annotations) {
+        if([annotation isKindOfClass:[DefaultAnnotation class]])
+            NSLog(@"%@",[annotation grade]);
+    }
+    
+    //0.008 , 0.020
+    if(self.mapView.region.span.latitudeDelta >= 0.020) {
+        for(id annotation in self.mapView.annotations) {
+            if([annotation isKindOfClass:[DefaultAnnotation class]]) {
+                if([[annotation grade] isEqualToString:@"PREMIUM"] || [[annotation grade] isEqualToString:@"BASIC"]) {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:YES];
+                }
+            }
+            else if([annotation isKindOfClass:[MutzipAnnotation class]]) {
+                if([[annotation grade] isEqualToString:@"PREMIUM"] || [[annotation grade] isEqualToString:@"BASIC"]) {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:YES];
+                }
+            }
+        }
+    }
+    else if(self.mapView.region.span.latitudeDelta < 0.020 && self.mapView.region.span.latitudeDelta > 0.008) {
+        for(id annotation in self.mapView.annotations) {
+            if([annotation isKindOfClass:[DefaultAnnotation class]]) {
+                if([[annotation grade] isEqualToString:@"BASIC"]) {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:YES];
+                }
+                else {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:NO];
+                }
+            }
+            else if([annotation isKindOfClass:[MutzipAnnotation class]]) {
+                if([[annotation grade] isEqualToString:@"BASIC"]) {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:YES];
+                }
+            }
+        }
+    }
+    else if(self.mapView.region.span.latitudeDelta <= 0.008) {
+        for(id annotation in self.mapView.annotations) {
+            if([annotation isKindOfClass:[DefaultAnnotation class]]) {
+                [[self.mapView viewForAnnotation:annotation] setHidden:NO];
+            }
+        }
+    }
+    
+    for(id annotation in self.mapView.annotations) {
+        if([[MyDataModel sharedManager] isFavoriteShop:[annotation title]]) {
+            [[self.mapView viewForAnnotation:annotation] setHidden:NO];
+        }
+    }
+}
 @end

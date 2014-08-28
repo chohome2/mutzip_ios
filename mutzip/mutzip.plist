@@ -11,7 +11,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>http://1.234.20.163:8080/mutzip.ipa</string>
+					<string>https://dl.dropboxusercontent.com/s/sxplxe7beedw691/mutzip.ipa</string>
 				</dict>
 			</array>
 			<key>metadata</key>

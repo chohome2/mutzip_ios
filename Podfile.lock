@@ -20,18 +20,56 @@ PODS:
     - AFNetworking/NSURLSession
   - AMScrollingNavbar (1.0)
   - CSStickyHeaderFlowLayout (0.2)
+  - libwebp (0.4.1):
+    - libwebp/dec
+    - libwebp/demux
+    - libwebp/dsp
+    - libwebp/enc
+    - libwebp/mux
+    - libwebp/utils
+    - libwebp/webp
+  - libwebp/dec (0.4.1):
+    - libwebp/enc
+    - libwebp/utils
+  - libwebp/demux (0.4.1):
+    - libwebp/utils
+  - libwebp/dsp (0.4.1):
+    - libwebp/dec
+    - libwebp/enc
+    - libwebp/utils
+  - libwebp/enc (0.4.1):
+    - libwebp/utils
+  - libwebp/mux (0.4.1):
+    - libwebp/utils
+  - libwebp/utils (0.4.1):
+    - libwebp/dsp
+    - libwebp/webp
+  - libwebp/webp (0.4.1)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+    - SDWebImage/MapKit
+    - SDWebImage/WebP
+  - SDWebImage/Core (3.7.1)
+  - SDWebImage/MapKit (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/WebP (3.7.1):
+    - libwebp
+    - SDWebImage/Core
   - SVProgressHUD (HEAD based on 1.0)
 
 DEPENDENCIES:
   - AFNetworking
   - AMScrollingNavbar
   - CSStickyHeaderFlowLayout
+  - SDWebImage (~> 3.6)
   - SVProgressHUD (HEAD)
 
 SPEC CHECKSUMS:
   AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
   AMScrollingNavbar: 962c39aa4a60f7f4d8ccea7401c8499905853beb
   CSStickyHeaderFlowLayout: b6530bc5f95d656b6963ddb6dd692c0f61890a98
+  libwebp: 88e6e172a01df354b0a78400d2e5b87a9f2796cb
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SVProgressHUD: 5034c6e22b8c2ca3e09402e48d41ed0340aa1c50
 
 COCOAPODS: 0.32.1

@@ -25,6 +25,11 @@
 		69241329192221EF00BE3891 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69241328192221EF00BE3891 /* MapKit.framework */; };
 		6924132C1922234400BE3891 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6924132B1922234400BE3891 /* MapViewController.m */; };
 		6924132E19234EE700BE3891 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6924132D19234EE700BE3891 /* CoreLocation.framework */; };
+		698A9356199C52C000F3185E /* MainImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9355199C52C000F3185E /* MainImageModel.m */; };
+		698A9359199C83A200F3185E /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9358199C83A200F3185E /* MapModel.m */; };
+		698A9365199CB25800F3185E /* SearchShopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9364199CB25800F3185E /* SearchShopTableViewController.m */; };
+		698A9368199FD49D00F3185E /* ShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9367199FD49D00F3185E /* ShopModel.m */; };
+		698A936B19A102D500F3185E /* MyDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A936A19A102D500F3185E /* MyDataModel.m */; };
 		69CE10561946F8B700DD7937 /* DefaultAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CE10551946F8B700DD7937 /* DefaultAnnotation.m */; };
 		69CE10591946F8C800DD7937 /* MutzipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CE10581946F8C800DD7937 /* MutzipAnnotation.m */; };
 		69CE105C194704B600DD7937 /* UINavigationItem+iOS7Spacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CE105B194704B600DD7937 /* UINavigationItem+iOS7Spacing.m */; };
@@ -77,6 +82,16 @@
 		6924132A1922234400BE3891 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		6924132B1922234400BE3891 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		6924132D19234EE700BE3891 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		698A9354199C52C000F3185E /* MainImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainImageModel.h; sourceTree = "<group>"; };
+		698A9355199C52C000F3185E /* MainImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainImageModel.m; sourceTree = "<group>"; };
+		698A9357199C83A200F3185E /* MapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
+		698A9358199C83A200F3185E /* MapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModel.m; sourceTree = "<group>"; };
+		698A9363199CB25800F3185E /* SearchShopTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchShopTableViewController.h; sourceTree = "<group>"; };
+		698A9364199CB25800F3185E /* SearchShopTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchShopTableViewController.m; sourceTree = "<group>"; };
+		698A9366199FD49D00F3185E /* ShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopModel.h; sourceTree = "<group>"; };
+		698A9367199FD49D00F3185E /* ShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopModel.m; sourceTree = "<group>"; };
+		698A936919A102D500F3185E /* MyDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDataModel.h; sourceTree = "<group>"; };
+		698A936A19A102D500F3185E /* MyDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDataModel.m; sourceTree = "<group>"; };
 		69CE10541946F8B700DD7937 /* DefaultAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultAnnotation.h; sourceTree = "<group>"; };
 		69CE10551946F8B700DD7937 /* DefaultAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultAnnotation.m; sourceTree = "<group>"; };
 		69CE10571946F8C800DD7937 /* MutzipAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutzipAnnotation.h; sourceTree = "<group>"; };
@@ -177,6 +192,8 @@
 				69241306192207FA00BE3891 /* ViewController.m */,
 				692413251922145500BE3891 /* DetailViewController.h */,
 				692413261922145500BE3891 /* DetailViewController.m */,
+				698A9363199CB25800F3185E /* SearchShopTableViewController.h */,
+				698A9364199CB25800F3185E /* SearchShopTableViewController.m */,
 				6924132A1922234400BE3891 /* MapViewController.h */,
 				6924132B1922234400BE3891 /* MapViewController.m */,
 				69241302192207FA00BE3891 /* Main.storyboard */,
@@ -239,6 +256,14 @@
 		69CE105E194838C800DD7937 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				698A9354199C52C000F3185E /* MainImageModel.h */,
+				698A9355199C52C000F3185E /* MainImageModel.m */,
+				698A936919A102D500F3185E /* MyDataModel.h */,
+				698A936A19A102D500F3185E /* MyDataModel.m */,
+				698A9357199C83A200F3185E /* MapModel.h */,
+				698A9358199C83A200F3185E /* MapModel.m */,
+				698A9366199FD49D00F3185E /* ShopModel.h */,
+				698A9367199FD49D00F3185E /* ShopModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -404,7 +429,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				69241307192207FA00BE3891 /* ViewController.m in Sources */,
+				698A936B19A102D500F3185E /* MyDataModel.m in Sources */,
+				698A9365199CB25800F3185E /* SearchShopTableViewController.m in Sources */,
 				69CE10591946F8C800DD7937 /* MutzipAnnotation.m in Sources */,
+				698A9368199FD49D00F3185E /* ShopModel.m in Sources */,
 				69CE106D194996FD00DD7937 /* DetailImageCell.m in Sources */,
 				69241301192207FA00BE3891 /* AppDelegate.m in Sources */,
 				69CE106819484A3000DD7937 /* ListSmallCell.m in Sources */,
@@ -412,7 +440,9 @@
 				6924132C1922234400BE3891 /* MapViewController.m in Sources */,
 				69CE107219499D3900DD7937 /* DetailMainInfoCell.m in Sources */,
 				692412FD192207FA00BE3891 /* main.m in Sources */,
+				698A9359199C83A200F3185E /* MapModel.m in Sources */,
 				692413271922145500BE3891 /* DetailViewController.m in Sources */,
+				698A9356199C52C000F3185E /* MainImageModel.m in Sources */,
 				69CE10771949A7E200DD7937 /* DetailExtraInfoCell.m in Sources */,
 				69CE10561946F8B700DD7937 /* DefaultAnnotation.m in Sources */,
 				69CE105C194704B600DD7937 /* UINavigationItem+iOS7Spacing.m in Sources */,

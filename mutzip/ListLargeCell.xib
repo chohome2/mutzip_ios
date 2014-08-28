@@ -22,25 +22,24 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uk-CQ-TWI">
-                        <rect key="frame" x="16" y="383" width="30" height="30"/>
+                        <rect key="frame" x="18" y="385" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" image="main_list_detail_check_off">
+                        <state key="normal" backgroundImage="main_list_detail_check_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="toggleMyStyle:" destination="qOL-Rk-EJO" eventType="touchUpInside" id="WdJ-im-whw"/>
-                            <action selector="touchMyStyle:" destination="qOL-Rk-EJO" eventType="touchUpInside" id="TQF-AM-G8B"/>
                         </connections>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Style" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtV-IT-5dV">
-                        <rect key="frame" x="42" y="387" width="57" height="21"/>
+                        <rect key="frame" x="44" y="387" width="57" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.41960784313725491" green="0.41960784313725491" blue="0.41960784313725491" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15793" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6F-NH-BhF">
-                        <rect key="frame" x="98" y="388" width="36" height="21"/>
+                        <rect key="frame" x="100" y="388" width="36" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.61960784313725492" green="0.61960784313725492" blue="0.61960784313725492" alpha="1" colorSpace="calibratedRGB"/>
@@ -56,13 +55,18 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Wm-Fn-wHf">
                         <rect key="frame" x="39" y="284" width="81" height="81"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" backgroundImage="sample-circle1">
+                        <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="flipItemImageView:" destination="qOL-Rk-EJO" eventType="touchUpInside" id="TfE-yX-bIA"/>
                         </connections>
                     </button>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="voo-yi-snT">
+                        <rect key="frame" x="142" y="178" width="37" height="37"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="color" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -70,12 +74,15 @@
             <connections>
                 <outlet property="flipButton" destination="3Wm-Fn-wHf" id="phB-uo-WPM"/>
                 <outlet property="itemImageView" destination="IDN-6K-Tpb" id="dse-tK-n0P"/>
+                <outlet property="likeLabel" destination="A6F-NH-BhF" id="Kn3-VY-C56"/>
+                <outlet property="loadingIndicator" destination="voo-yi-snT" id="c1M-Xv-f2I"/>
+                <outlet property="myStyleButton" destination="9uk-CQ-TWI" id="qwo-Rj-a2f"/>
+                <outlet property="shopNameLabel" destination="9ja-hG-YLo" id="nLF-cX-13J"/>
             </connections>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="main_list_detail_bg" width="320" height="397"/>
         <image name="main_list_detail_check_off" width="25" height="25"/>
-        <image name="sample-circle1" width="250" height="250"/>
     </resources>
 </document>
