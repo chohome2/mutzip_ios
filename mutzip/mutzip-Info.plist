@@ -20,8 +20,26 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1687005268191896</string>
+				<string>kakao2b40b0b749be946dae4918e2c050d674</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>KAKAO_APP_KEY</key>
+	<string>2b40b0b749be946dae4918e2c050d674</string>
+	<key>FacebookAppID</key>
+	<string>1687005268191896</string>
+	<key>FacebookDisplayName</key>
+	<string>mutzip</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>

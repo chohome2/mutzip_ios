@@ -25,6 +25,10 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                     </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_bottom_bg" translatesAutoresizingMaskIntoConstraints="NO" id="two-d0-zFz">
+                        <rect key="frame" x="0.0" y="-84" width="320" height="92"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -34,6 +38,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="detail_bottom_bg" width="320" height="92"/>
         <image name="detail_popup_moreInfo_bg" width="320" height="76"/>
     </resources>
 </document>

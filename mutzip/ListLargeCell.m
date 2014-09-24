@@ -66,14 +66,14 @@
     if([self.isFront boolValue]) {
         self.isFront = [NSNumber numberWithBool:NO];
         [UIView transitionWithView:self.itemImageView
-                          duration:0.5
+                          duration:0.4
                            options:UIViewAnimationOptionTransitionFlipFromRight
                         animations:^{
                             [self.itemImageView sd_setImageWithURL:[NSURL URLWithString:self.entireName]];
                         }
                         completion:NULL];
         [UIView transitionWithView:self.flipButton
-                          duration:0.5
+                          duration:0.4
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
                             [self.flipButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.imageName] forState:UIControlStateNormal];
@@ -83,14 +83,14 @@
     else {
         self.isFront = [NSNumber numberWithBool:YES];
         [UIView transitionWithView:self.itemImageView
-                          duration:0.5
+                          duration:0.4
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         animations:^{
                             [self.itemImageView sd_setImageWithURL:[NSURL URLWithString:self.imageName]];
                         }
                         completion:NULL];
         [UIView transitionWithView:self.flipButton
-                          duration:0.5
+                          duration:0.4
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
                             [self.flipButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.buttonName] forState:UIControlStateNormal];

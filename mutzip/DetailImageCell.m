@@ -171,5 +171,8 @@ NS_AVAILABLE_IOS(5_0){
     [SVProgressHUD showSuccessWithStatus:@"My Style에 추가되었습니다."];
 }
 - (IBAction)shareSNS:(id)sender {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"showActionSheetByShare"
+     object:self userInfo:nil];
 }
 @end

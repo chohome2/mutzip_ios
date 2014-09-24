@@ -25,6 +25,7 @@
 		69241329192221EF00BE3891 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69241328192221EF00BE3891 /* MapKit.framework */; };
 		6924132C1922234400BE3891 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6924132B1922234400BE3891 /* MapViewController.m */; };
 		6924132E19234EE700BE3891 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6924132D19234EE700BE3891 /* CoreLocation.framework */; };
+		69409E9E19B4775A004CF0EF /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69409E9D19B4775A004CF0EF /* FacebookSDK.framework */; };
 		698A9356199C52C000F3185E /* MainImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9355199C52C000F3185E /* MainImageModel.m */; };
 		698A9359199C83A200F3185E /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9358199C83A200F3185E /* MapModel.m */; };
 		698A9365199CB25800F3185E /* SearchShopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9364199CB25800F3185E /* SearchShopTableViewController.m */; };
@@ -43,6 +44,7 @@
 		69CE107419499D4C00DD7937 /* DetailMainInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CE107319499D4C00DD7937 /* DetailMainInfoCell.xib */; };
 		69CE10771949A7E200DD7937 /* DetailExtraInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CE10761949A7E200DD7937 /* DetailExtraInfoCell.m */; };
 		69CE10791949A7F800DD7937 /* DetailExtraInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CE10781949A7F800DD7937 /* DetailExtraInfoCell.xib */; };
+		69D7733419B45004008C85E5 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7733319B45004008C85E5 /* KakaoOpenSDK.framework */; };
 		F2DDCE7674EC4A4599213242 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEE4DF21FA741D4BEE30DEC /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +84,7 @@
 		6924132A1922234400BE3891 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		6924132B1922234400BE3891 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		6924132D19234EE700BE3891 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		69409E9D19B4775A004CF0EF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		698A9354199C52C000F3185E /* MainImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainImageModel.h; sourceTree = "<group>"; };
 		698A9355199C52C000F3185E /* MainImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainImageModel.m; sourceTree = "<group>"; };
 		698A9357199C83A200F3185E /* MapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 		69CE10751949A7E200DD7937 /* DetailExtraInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailExtraInfoCell.h; sourceTree = "<group>"; };
 		69CE10761949A7E200DD7937 /* DetailExtraInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailExtraInfoCell.m; sourceTree = "<group>"; };
 		69CE10781949A7F800DD7937 /* DetailExtraInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailExtraInfoCell.xib; sourceTree = "<group>"; };
+		69D7733319B45004008C85E5 /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoOpenSDK.framework; path = "kakao-ios-sdk-1.0.14/KakaoOpenSDK.framework"; sourceTree = "<group>"; };
 		80FFB4B784E94A43B527971C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CFEE4DF21FA741D4BEE30DEC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -122,10 +126,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69D7733419B45004008C85E5 /* KakaoOpenSDK.framework in Frameworks */,
 				6924132E19234EE700BE3891 /* CoreLocation.framework in Frameworks */,
 				69241329192221EF00BE3891 /* MapKit.framework in Frameworks */,
 				692412F3192207FA00BE3891 /* CoreGraphics.framework in Frameworks */,
 				692412F5192207FA00BE3891 /* UIKit.framework in Frameworks */,
+				69409E9E19B4775A004CF0EF /* FacebookSDK.framework in Frameworks */,
 				692412F1192207FA00BE3891 /* Foundation.framework in Frameworks */,
 				F2DDCE7674EC4A4599213242 /* libPods.a in Frameworks */,
 			);
@@ -167,6 +173,8 @@
 		692412EF192207FA00BE3891 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69409E9D19B4775A004CF0EF /* FacebookSDK.framework */,
+				69D7733319B45004008C85E5 /* KakaoOpenSDK.framework */,
 				6924132D19234EE700BE3891 /* CoreLocation.framework */,
 				69241328192221EF00BE3891 /* MapKit.framework */,
 				692412F0192207FA00BE3891 /* Foundation.framework */,
@@ -574,9 +582,32 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Seungjai Han (774R8AYP38)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/kakao-ios-sdk-1.0.14",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";
 				INFOPLIST_FILE = "mutzip/mutzip-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					ImageIO,
+					"-framework",
+					MapKit,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -589,9 +620,32 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Qualson inc.";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/kakao-ios-sdk-1.0.14",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";
 				INFOPLIST_FILE = "mutzip/mutzip-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					ImageIO,
+					"-framework",
+					MapKit,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -20,12 +20,15 @@
 #import "MainImageModel.h"
 #import "AFNetworking.h"
 #import "SearchShopTableViewController.h"
-
+#import <KakaoOpenSDK/KakaoOpenSDK.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 
 @interface DetailViewController () {
     NSArray *array;
     BOOL isAppend;
+    UIActionSheet *contactActionSheet;
+    UIActionSheet *shareActionSheet;
 }
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -94,6 +97,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showActionSheetByContact:)
                                                  name:@"showActionSheetByContact"
+                                               object:nil];
+    
+    //공유하기 터치시 공유용 액션시트 호출
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showActionSheetByShare:)
+                                                 name:@"showActionSheetByShare"
                                                object:nil];
 }
 
@@ -279,30 +288,89 @@
 
 - (void)showActionSheetByContact:(NSNotification *) notification {
     NSLog(@"contact!!");
-    UIActionSheet *menu = [[UIActionSheet alloc]
+    contactActionSheet = [[UIActionSheet alloc]
                            initWithTitle: @"연락수단을 선택하세요"
                            delegate:self
                            cancelButtonTitle:@"Cancel"
                            destructiveButtonTitle:nil
                            otherButtonTitles:@"전화걸기", @"문자보내기", nil];
-    [menu showInView:self.view];
+    [contactActionSheet showInView:self.view];
+}
+
+- (void)showActionSheetByShare:(NSNotification *) notification {
+    NSLog(@"share!!");
+    shareActionSheet = [[UIActionSheet alloc]
+                           initWithTitle: @"공유수단을 선택하세요"
+                           delegate:self
+                           cancelButtonTitle:@"Cancel"
+                           destructiveButtonTitle:nil
+                           otherButtonTitles:@"카카오톡", @"페이스북", nil];
+    [shareActionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"User Pressed Button %d", buttonIndex);
-    if(buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt://01011112222"]];
-        
+    if(actionSheet == contactActionSheet) {
+        if(buttonIndex == 0) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt://01011112222"]];
+        }
+        else if(buttonIndex == 1) {
+            if ([MFMessageComposeViewController canSendText]) {
+                MFMessageComposeViewController *view = [[MFMessageComposeViewController alloc] init];
+                view.body = @"";
+                view.recipients = [NSArray arrayWithObject:@"123123123"];
+                view.messageComposeDelegate = self;
+                
+                [self presentViewController:view animated:YES completion:nil];
+            }
+        }
     }
-    else if(buttonIndex == 1) {
-        if ([MFMessageComposeViewController canSendText]) {
-            MFMessageComposeViewController *view = [[MFMessageComposeViewController alloc] init];
-            view.body = @"";
-            view.recipients = [NSArray arrayWithObject:@"123123123"];
-            view.messageComposeDelegate = self;
+    
+    else if(actionSheet == shareActionSheet) {
+        if(buttonIndex == 0) {
+            KakaoTalkLinkAction *androidAppAction
+            = [KakaoTalkLinkAction createAppAction:KakaoTalkLinkActionOSPlatformAndroid
+                                        devicetype:KakaoTalkLinkActionDeviceTypePhone
+                                         execparam:nil];
             
-            [self presentViewController:view animated:YES completion:nil];
+            KakaoTalkLinkAction *iphoneAppAction
+            = [KakaoTalkLinkAction createAppAction:KakaoTalkLinkActionOSPlatformIOS
+                                        devicetype:KakaoTalkLinkActionDeviceTypePhone
+                                         execparam:nil];
+            
+            KakaoTalkLinkObject *button
+            = [KakaoTalkLinkObject createAppButton:@"Test Button"
+                                           actions:@[androidAppAction, iphoneAppAction]];
+            
+            KakaoTalkLinkObject *image
+            = [KakaoTalkLinkObject createImage:@"http://1.234.20.163:8080/static/image/sample6.jpg"
+                                         width:150
+                                        height:200];
+            
+            [KOAppCall openKakaoTalkAppLink:@[image,button]];
+        }
+        else if(buttonIndex == 1) {
+            FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
+            //params.link = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
+            params.picture = [NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"];
+            
+            // If the Facebook app is installed and we can present the share dialog
+            if ([FBDialogs canPresentShareDialogWithParams:params]) {
+                [FBDialogs presentShareDialogWithLink:[NSURL URLWithString:@"http://mutzip.feelitmutzip.cafe24.com:8080/app/"] name:@"title" caption:@"subtitle" description:@"내가 멋집이다" picture:[NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"] clientState:nil
+                                              handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                                  if(error) {
+                                                      // An error occurred, we need to handle the error
+                                                      // See: https://developers.facebook.com/docs/ios/errors
+                                                      NSLog(@"Error publishing story: %@", error.description);
+                                                  } else {
+                                                      // Success
+                                                      NSLog(@"result %@", results);
+                                                  }
+                                              }];
+            } else {
+                // Present the feed dialog
+                NSLog(@"can not!!");
+            }
         }
     }
 }
@@ -311,7 +379,10 @@
                   didFinishWithResult:(MessageComposeResult)result
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    [SVProgressHUD showSuccessWithStatus:@"문자전송이 완료되었습니다."];
+    
+    if(result == MessageComposeResultSent) {
+        [SVProgressHUD showSuccessWithStatus:@"문자전송이 완료되었습니다."];
+    }
 }
 
 @end
