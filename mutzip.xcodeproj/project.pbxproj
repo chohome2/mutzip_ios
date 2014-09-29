@@ -25,7 +25,7 @@
 		69241329192221EF00BE3891 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69241328192221EF00BE3891 /* MapKit.framework */; };
 		6924132C1922234400BE3891 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6924132B1922234400BE3891 /* MapViewController.m */; };
 		6924132E19234EE700BE3891 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6924132D19234EE700BE3891 /* CoreLocation.framework */; };
-		69409E9E19B4775A004CF0EF /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69409E9D19B4775A004CF0EF /* FacebookSDK.framework */; };
+		696C424519D2CFE1000005C8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696C424419D2CFE1000005C8 /* FacebookSDK.framework */; };
 		698A9356199C52C000F3185E /* MainImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9355199C52C000F3185E /* MainImageModel.m */; };
 		698A9359199C83A200F3185E /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9358199C83A200F3185E /* MapModel.m */; };
 		698A9365199CB25800F3185E /* SearchShopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 698A9364199CB25800F3185E /* SearchShopTableViewController.m */; };
@@ -84,7 +84,7 @@
 		6924132A1922234400BE3891 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		6924132B1922234400BE3891 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		6924132D19234EE700BE3891 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		69409E9D19B4775A004CF0EF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		696C424419D2CFE1000005C8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		698A9354199C52C000F3185E /* MainImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainImageModel.h; sourceTree = "<group>"; };
 		698A9355199C52C000F3185E /* MainImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainImageModel.m; sourceTree = "<group>"; };
 		698A9357199C83A200F3185E /* MapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				69241329192221EF00BE3891 /* MapKit.framework in Frameworks */,
 				692412F3192207FA00BE3891 /* CoreGraphics.framework in Frameworks */,
 				692412F5192207FA00BE3891 /* UIKit.framework in Frameworks */,
-				69409E9E19B4775A004CF0EF /* FacebookSDK.framework in Frameworks */,
+				696C424519D2CFE1000005C8 /* FacebookSDK.framework in Frameworks */,
 				692412F1192207FA00BE3891 /* Foundation.framework in Frameworks */,
 				F2DDCE7674EC4A4599213242 /* libPods.a in Frameworks */,
 			);
@@ -173,7 +173,7 @@
 		692412EF192207FA00BE3891 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				69409E9D19B4775A004CF0EF /* FacebookSDK.framework */,
+				696C424419D2CFE1000005C8 /* FacebookSDK.framework */,
 				69D7733319B45004008C85E5 /* KakaoOpenSDK.framework */,
 				6924132D19234EE700BE3891 /* CoreLocation.framework */,
 				69241328192221EF00BE3891 /* MapKit.framework */,
@@ -586,6 +586,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/kakao-ios-sdk-1.0.14",
 					"$(PROJECT_DIR)",
+					/Users/skplanet/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";
@@ -624,6 +625,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/kakao-ios-sdk-1.0.14",
 					"$(PROJECT_DIR)",
+					/Users/skplanet/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";

@@ -71,9 +71,10 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailImageCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILIMAGECELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailMainInfoCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILMAININFOCELL"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"DetailExtraInfoCell" bundle:nil] forCellWithReuseIdentifier:@"DETAILEXTRAINFOCELL"];
-    
 
-    array = [[ShopModel sharedManager] getDetailImageList][0][@"recommend_list"];
+    array = [[NSArray alloc] init];
+    if([[[ShopModel sharedManager] getDetailImageList] count] > 0)
+        array = [[ShopModel sharedManager] getDetailImageList][0][@"recommend_list"];
     self.navigationController.navigationBar.topItem.title = @"";
     
     isAppend = NO;
@@ -299,6 +300,8 @@
 
 - (void)showActionSheetByShare:(NSNotification *) notification {
     NSLog(@"share!!");
+    NSLog(@"%@",notification.userInfo);
+    self.nowImageDict = notification.userInfo;
     shareActionSheet = [[UIActionSheet alloc]
                            initWithTitle: @"공유수단을 선택하세요"
                            delegate:self
@@ -312,13 +315,15 @@
 {
     if(actionSheet == contactActionSheet) {
         if(buttonIndex == 0) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"telprompt://01011112222"]];
+            NSLog(@"%@",[[[ShopModel sharedManager] getShop] objectForKey:@"phone_repr"]);
+            NSString *telString = [NSString stringWithFormat:@"telprompt://%@",[[[ShopModel sharedManager] getShop] objectForKey:@"phone_repr"]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:telString]];
         }
         else if(buttonIndex == 1) {
             if ([MFMessageComposeViewController canSendText]) {
                 MFMessageComposeViewController *view = [[MFMessageComposeViewController alloc] init];
                 view.body = @"";
-                view.recipients = [NSArray arrayWithObject:@"123123123"];
+                view.recipients = [NSArray arrayWithObject:[[[ShopModel sharedManager] getShop] objectForKey:@"phone_repr"]];
                 view.messageComposeDelegate = self;
                 
                 [self presentViewController:view animated:YES completion:nil];
@@ -327,6 +332,7 @@
     }
     
     else if(actionSheet == shareActionSheet) {
+        NSString *imageUrl = self.nowImageDict[@"image"][@"image_url"];
         if(buttonIndex == 0) {
             KakaoTalkLinkAction *androidAppAction
             = [KakaoTalkLinkAction createAppAction:KakaoTalkLinkActionOSPlatformAndroid
@@ -339,11 +345,12 @@
                                          execparam:nil];
             
             KakaoTalkLinkObject *button
-            = [KakaoTalkLinkObject createAppButton:@"Test Button"
+            = [KakaoTalkLinkObject createAppButton:@"Mutzip"
                                            actions:@[androidAppAction, iphoneAppAction]];
             
+            NSLog(@"image url : %@",imageUrl);
             KakaoTalkLinkObject *image
-            = [KakaoTalkLinkObject createImage:@"http://1.234.20.163:8080/static/image/sample6.jpg"
+            = [KakaoTalkLinkObject createImage:imageUrl
                                          width:150
                                         height:200];
             
@@ -351,12 +358,25 @@
         }
         else if(buttonIndex == 1) {
             FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-            //params.link = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
-            params.picture = [NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"];
+            params.link = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
+            //params.picture = [NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"];
             
             // If the Facebook app is installed and we can present the share dialog
             if ([FBDialogs canPresentShareDialogWithParams:params]) {
-                [FBDialogs presentShareDialogWithLink:[NSURL URLWithString:@"http://mutzip.feelitmutzip.cafe24.com:8080/app/"] name:@"title" caption:@"subtitle" description:@"내가 멋집이다" picture:[NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"] clientState:nil
+                NSLog(@"facebook!!!");
+                /*
+                [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                    if(error) {
+                        // An error occurred, we need to handle the error
+                        // See: https://developers.facebook.com/docs/ios/errors
+                        NSLog(@"Error publishing story: %@", error.description);
+                    } else {
+                        // Success
+                        NSLog(@"result %@", results);
+                    }
+                }];
+                */
+                 [FBDialogs presentShareDialogWithLink:[NSURL URLWithString:@"http://www.facebook.com"] name:@"title" caption:@"subtitle" description:@"내가 멋집이다" picture:[NSURL URLWithString:imageUrl] clientState:nil
                                               handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
                                                   if(error) {
                                                       // An error occurred, we need to handle the error
@@ -367,6 +387,7 @@
                                                       NSLog(@"result %@", results);
                                                   }
                                               }];
+
             } else {
                 // Present the feed dialog
                 NSLog(@"can not!!");

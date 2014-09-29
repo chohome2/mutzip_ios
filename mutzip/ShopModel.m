@@ -79,18 +79,18 @@
     NSString *info = @"";
     NSDictionary *shop = [self getShop];
     if(shop[@"work_time"]) {
-        info = [info stringByAppendingFormat:@"%@\n",shop[@"work_time"]];
+        info = [info stringByAppendingFormat:@"영업시간정보\n%@\n\n",shop[@"work_time"]];
     }
     if(shop[@"address"]) {
-        info = [info stringByAppendingFormat:@"%@\n",shop[@"address"]];
+        info = [info stringByAppendingFormat:@"매장주소\n%@\n\n",shop[@"address"]];
     }
 
     if(shop[@"phone_repr"]) {
-        info = [info stringByAppendingFormat:@"%@\n",shop[@"phone_repr"]];
+        info = [info stringByAppendingFormat:@"매장전화번호\nT.%@\n",shop[@"phone_repr"]];
     }
     if(shop[@"phone_etc"]) {
         for(NSString *phone in shop[@"phone_etc"]) {
-            info = [info stringByAppendingFormat:@"%@\n",phone];
+            info = [info stringByAppendingFormat:@"T.%@\n",phone];
         }
     }
     

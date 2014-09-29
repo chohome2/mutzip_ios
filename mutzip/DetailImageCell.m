@@ -39,13 +39,14 @@
 - (void)drawCell {
     NSLog(@"drawCell : %d", page);
     array = [[ShopModel sharedManager] getDetailImageList];
+    if([array count] == 0) return;
     
     ////추후 필드 변경 필수!!!//
-    self.shopLabel.text = [[ShopModel sharedManager] getShop][@"name_main"];
+    self.shopLabel.text = [[ShopModel sharedManager] getShop][@"description"];
     
     ///////////////////////////
     self.likeLabel.text = [NSString stringWithFormat:@"%@", array[page][@"likes"]];
-    self.pageLabel.text = [NSString stringWithFormat:@"%d/%d",page + 1,[array count]];
+    self.pageLabel.text = [NSString stringWithFormat:@"%d/%lu",page + 1,(unsigned long)[array count]];
     for(int i = 0;  i < [array count]; i++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(320 * i,0, 320, 427)];
         [imageView sd_setImageWithURL:[NSURL URLWithString:[[array objectAtIndex:i] objectForKey:@"image_url"]]];
@@ -83,7 +84,7 @@
     NSLog(@"scroll Did end!!");
     CGFloat pageWidth = scrollView.frame.size.width;
     page = ceil((scrollView.contentOffset.x - pageWidth / 2) / pageWidth);
-    self.pageLabel.text = [NSString stringWithFormat:@"%d/%d",page + 1,[array count]];
+    self.pageLabel.text = [NSString stringWithFormat:@"%d/%lu",page + 1,(unsigned long)[array count]];
     
     self.likeLabel.text = [NSString stringWithFormat:@"%@", array[page][@"likes"]];
     
@@ -109,7 +110,7 @@ NS_AVAILABLE_IOS(5_0){
     //find the page number you are on
     CGFloat pageWidth = scrollView.frame.size.width;
     page = ceil((scrollView.contentOffset.x - pageWidth / 2) / pageWidth);
-    self.pageLabel.text = [NSString stringWithFormat:@"%d/%d",page + 1,[array count]];
+    self.pageLabel.text = [NSString stringWithFormat:@"%d/%lu",page + 1,(unsigned long)[array count]];
     self.likeLabel.text = [NSString stringWithFormat:@"%@", array[page][@"likes"]];
 
     if([[MyDataModel sharedManager] isImageLike:array[page][@"image_id"]]) {
@@ -173,6 +174,6 @@ NS_AVAILABLE_IOS(5_0){
 - (IBAction)shareSNS:(id)sender {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"showActionSheetByShare"
-     object:self userInfo:nil];
+     object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:array[page],@"image", nil]];
 }
 @end

@@ -12,4 +12,5 @@
 @interface DetailViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate,MFMessageComposeViewControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *shopDict;
+@property (nonatomic, strong) NSDictionary *nowImageDict;
 @end
