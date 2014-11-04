@@ -1,8 +1,10 @@
 # CSStickyHeaderFlowLayout
 
-![](http://cl.ly/image/1D2i0746180b/1*pev9ZXJAZ2MYoF8-R_nbRA.gif)
+<!--![](http://cl.ly/image/1D2i0746180b/1*pev9ZXJAZ2MYoF8-R_nbRA.gif)-->
 
-![Spotify](http://f.cl.ly/items/2s1b182V3P171Q2m3y42/spotify.gif)
+<img src="http://f.cl.ly/items/05130s2r0X1j1x1N0Q3n/spotify-48-16-half.gif" width="276"/>
+<img src="http://f.cl.ly/items/3q2u35013o0y0G2o3X1v/carshare-32-16-half.gif" width="276"/>
+<img src="http://f.cl.ly/items/3l0F1F3Y0s1M1F3a2r0d/ripple.gif" width="276"/>
 
 Parallax, Sticky Headers, Growing image heading, done right in one
 UICollectionViewLayout.
@@ -61,7 +63,7 @@ Register that nib file to your collection view controller in code:
 
     // Locate the nib and register it to your collection view
     UINib *headerNib = [UINib nibWithNibName:@"CSGrowHeader" bundle:nil];
-    [self.collectionView registerNib:self.headerNib
+    [self.collectionView registerNib:headerNib
           forSupplementaryViewOfKind:CSStickyHeaderParallaxHeader
                  withReuseIdentifier:@"header"];
 
@@ -105,19 +107,38 @@ Run the project examples and it'll shows you exactly how you achieve different e
 
 ![](http://f.cl.ly/items/313D2n3R0H0e0x090B3X/different-header.jpeg)
 
+## Updates
+
+- 0.2.2: Fix 1px header and zIndex problem, thanks
+  [@m1entus](https://github.com/m1entus) and [@Xyand](https://github.com/Xyand)
+
+- 0.2.1: Fix crash on reloadData in collection view when header is offscreen, thanks [@jessesquires](https://github.com/jessesquires)
+
+- 0.2: Added custom UICollectionViewLayoutAttributes to support more advanced example (Spotify App)
+
+- 0.1.1: Minor fixes for default number of sections, thanks [@miwillhite](https://github.com/miwillhite)
+
+- 0.1: Initial Release
+
+## Who's using it?
+
+We've a [wiki page][made] for that, feel free to add your projects there!
 
 ## Requirements
 
 - Xcode 5
 - iOS 7 (I haven't really test on iOS 6 but it should work if you're using iOS 6 compatible Storyboard)
 
-
 ## Author
 
-James Tang, jamz@jamztang.com
+James Tang, j@jamztang.com
 
 ## License
 
 CSStickyHeaderFlowLayout is available under the MIT license. See the LICENSE file for more info.
 
 [CSStickyHeaderFlowLayout.h]:https://github.com/jamztang/CSStickyHeaderFlowLayout/blob/master/Classes/CSStickyHeaderFlowLayout.h
+
+[Carshare]:http://carshare.hk
+[Ripple]:http://ripplechat.io
+[made]:https://github.com/jamztang/CSStickyHeaderFlowLayout/wiki

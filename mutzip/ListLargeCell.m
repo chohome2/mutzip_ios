@@ -13,6 +13,7 @@
 #import "AFNetworking.h"
 #import "MyDataModel.h"
 #import "MainImageModel.h"
+#import "ShopModel.h"
 
 @implementation ListLargeCell
 
@@ -52,11 +53,9 @@
     
     if([[MyDataModel sharedManager] isImageLike:imageDict[@"image_id"]]) {
         [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"main_list_detail_check_on.png"] forState:UIControlStateNormal];
-        NSLog(@"draw check on!!");
     }
     else {
         [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"main_list_detail_check_off.png"] forState:UIControlStateNormal];
-        NSLog(@"draw check off!!");
     }
 }
 
@@ -129,11 +128,15 @@
             [SVProgressHUD showSuccessWithStatus:@"My Style에 추가되었습니다."];
             myImage[@"likes"] = [NSNumber numberWithInteger:[myImage[@"likes"] integerValue] + 1];
             [[MainImageModel sharedManager] modifyLikeWithImageId:imageId amount:1];
+            [[ShopModel sharedManager] modifyLikeWithImageId:imageId amount:1];
+
         }
         else {
             [SVProgressHUD showSuccessWithStatus:@"My Style에서 삭제되었습니다."];
             myImage[@"likes"] = [NSNumber numberWithInteger:[myImage[@"likes"] integerValue] - 1];
             [[MainImageModel sharedManager] modifyLikeWithImageId:imageId amount:-1];
+            [[ShopModel sharedManager] modifyLikeWithImageId:imageId amount:-1];
+
         }
         
         [[NSNotificationCenter defaultCenter]

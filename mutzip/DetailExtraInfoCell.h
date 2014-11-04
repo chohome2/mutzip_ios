@@ -11,6 +11,7 @@
 @interface DetailExtraInfoCell : UICollectionViewCell
 
 @property (strong, nonatomic) IBOutlet UITextView *infoTextView;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 - (void)drawCell;
 @end

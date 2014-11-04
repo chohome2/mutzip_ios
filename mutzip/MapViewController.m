@@ -38,11 +38,19 @@
     [super viewDidLoad];
     
     self.mapView.delegate = self;
+    [self.mapView setShowsUserLocation:YES];
+    self.mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
     
     mapDict = [[MapModel sharedManager] getMapList];
     
     CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(37.5225221, 127.0227997);
     MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 1000, 1000)];
+    
+    if ([self.mapView respondsToSelector:@selector(camera)]) {
+        MKMapCamera *newCamera = [[self.mapView camera] copy];
+        [newCamera setHeading:90.0]; // or newCamera.heading + 90.0 % 360.0
+        [self.mapView setCamera:newCamera animated:YES];
+    }
     
     [self.mapView setRegion:adjustedRegion animated:YES];
     
@@ -150,7 +158,8 @@
             }];
         }];
         [button sd_setBackgroundImageWithURL:[NSURL URLWithString:map[@"image_map"]] forState:UIControlStateHighlighted];
-        button.frame           = CGRectMake(8,7,102,136);
+        //button.frame           = CGRectMake(8,7,102,136);
+        button.frame           = CGRectMake(0,0,118,143);
         button.layer.borderColor = RGB(172, 172, 172).CGColor;
         button.layer.borderWidth = 0.5f;
         button.titleLabel.text = [annotations title];

@@ -31,13 +31,29 @@
 */
 
 - (void)drawCell {
-    /*
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineSpacing = 4;
-    self.infoTextView.attributedText = [[NSAttributedString alloc]
-                                        initWithString:[[ShopModel sharedManager] getShopDetailInfo]
-                                        attributes:@{NSParagraphStyleAttributeName : style}];
-     */
-    self.infoTextView.text = [[ShopModel sharedManager] getShopDetailInfo];
+#define FONT_SIZE 12
+    
+    NSString*myNSString = [[ShopModel sharedManager] getShopDetailInfo];
+    UIFont * labelFont = [UIFont systemFontOfSize:FONT_SIZE];
+    UIColor * labelColor = [UIColor colorWithWhite:1 alpha:1];
+    
+    NSAttributedString *labelText = [[NSAttributedString alloc] initWithString : myNSString
+                                                                    attributes : @{
+                                                                                   NSFontAttributeName : labelFont,
+                                                                                   NSForegroundColorAttributeName : labelColor }];
+
+    
+    self.infoTextView.attributedText = labelText;
+    //self.infoTextView.text = [[ShopModel sharedManager] getShopDetailInfo];
+    
+    NSLog(@"info text : %@",self.infoTextView.text);
+    NSLog(@"info text height : %f", self.infoTextView.contentSize.height);
+    CGRect frame = self.infoTextView.frame;
+    frame.size.height = self.infoTextView.contentSize.height;
+    self.infoTextView.frame = frame;
+    
+    frame = self.backgroundImage.frame;
+    frame.size.height = self.infoTextView.contentSize.height;
+    self.backgroundImage.frame = frame;
 }
 @end

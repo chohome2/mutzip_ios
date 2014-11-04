@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.qualson.should.mulcam</string>
+	<string>com.moongoon.mutzip</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -34,12 +34,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>KAKAO_APP_KEY</key>
-	<string>2b40b0b749be946dae4918e2c050d674</string>
 	<key>FacebookAppID</key>
 	<string>1687005268191896</string>
 	<key>FacebookDisplayName</key>
 	<string>mutzip</string>
+	<key>KAKAO_APP_KEY</key>
+	<string>2b40b0b749be946dae4918e2c050d674</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
@@ -52,5 +52,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

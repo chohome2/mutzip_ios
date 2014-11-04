@@ -88,7 +88,7 @@
 - (IBAction)toggleAppendButton:(id)sender {
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationDuration:0.2];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     
     angle = angle == 180?0:180;

@@ -38,10 +38,10 @@
 {
     [super viewDidLoad];
     
-    //릴리즈 전에 지울 것
-    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    [imageCache clearMemory];
-    [imageCache clearDisk];
+    //TODO 릴리즈 전에 지울 것
+    //SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    //[imageCache clearMemory];
+    //[imageCache clearDisk];
     
     
     isListView = YES;
@@ -76,7 +76,9 @@
     
     
     //현재 본인 위치정보 얻어오기
+    
     manager = [[CLLocationManager alloc] init];
+    [manager requestWhenInUseAuthorization];
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
     [manager startUpdatingLocation];
@@ -110,7 +112,7 @@
     dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     NSLog(@"%@",BASE_REST_URL_MAIN);
     [dataManager GET:BASE_REST_URL_MAIN parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
+        //NSLog(@"%@",responseObject);
         //mainImageModel에 메인노출이미지목록 저장
         [[MainImageModel sharedManager] setMainImageList:responseObject[@"data"]];
         
@@ -128,7 +130,7 @@
     AFHTTPRequestOperationManager *mapManager = [AFHTTPRequestOperationManager manager];
     mapManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     [mapManager GET:BASE_REST_URL_MAP parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
+        //NSLog(@"%@",responseObject);
         [[MapModel sharedManager] setMapList:responseObject[@"data"]];
         
         [SVProgressHUD popActivity];
@@ -143,6 +145,8 @@
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setAlpha:1.0];
     [self showNavBarAnimated:NO];
+    array = [[MainImageModel sharedManager] getMainImageList];
+    [self.collectionView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -169,8 +173,6 @@
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if(isListView) {
         ListLargeCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"LARGECELL" forIndexPath:indexPath];
-        
-        NSLog(@"draw LARGECELL!!!!");
         //list view cell 그리기
         NSDictionary *imageDict = [array objectAtIndex:indexPath.row];
         

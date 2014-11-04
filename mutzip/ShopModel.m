@@ -90,8 +90,14 @@
     }
     if(shop[@"phone_etc"]) {
         for(NSString *phone in shop[@"phone_etc"]) {
-            info = [info stringByAppendingFormat:@"T.%@\n",phone];
+            if([phone length] > 0) {
+                info = [info stringByAppendingFormat:@"T.%@\n",phone];
+            }
         }
+    }
+    if(shop[@"url"]) {
+        info = [info stringByAppendingFormat:@"\n홈페이지\n%@\n",shop[@"url"]];
+        
     }
     
     return info;

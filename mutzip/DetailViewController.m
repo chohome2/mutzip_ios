@@ -50,7 +50,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"detail_actionbar_bg.png"] forBarMetrics:UIBarMetricsDefault];
     
 	// Do any additional setup after loading the view.
     
@@ -62,7 +61,7 @@
     UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [searchButton setBackgroundImage:[UIImage imageNamed:@"detail_actionbar_icon_search.png"] forState:UIControlStateNormal];
     [searchButton addTarget:self action:@selector(modalSearchView) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *searchButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
+    //UIBarButtonItem *searchButtonItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
     
     //[self.navigationItem setRightBarButtonItems:@[searchButtonItem,homeButtonItem] animated:YES];
     [self.navigationItem setRightBarButtonItems:@[homeButtonItem] animated:YES];
@@ -83,6 +82,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [[ShopModel sharedManager] setShop:self.shopDict];
+    //NSLog(@"%@",self.shopDict);
     //가로 플리킹시 collectionView reload
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(flickingStylecut:)
@@ -123,6 +124,7 @@
     //[SVProgressHUD show];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *vc = (DetailViewController *)[sb instantiateViewControllerWithIdentifier:@"DETAILVIEW"];
+    vc.shopDict = [[ShopModel sharedManager] getShop];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)popToHome {
@@ -146,14 +148,12 @@
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         if(indexPath.row == 0) {
-            NSLog(@"cellForItemAtIndexPath : 0");
             DetailImageCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILIMAGECELL" forIndexPath:indexPath];
             
             [cell drawCell];
             return cell;
         }
         else if(indexPath.row == 1) {
-            NSLog(@"cellForItemAtIndexPath : 1");
             DetailMainInfoCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DETAILMAININFOCELL" forIndexPath:indexPath];
             [cell.appendButton addTarget:self action:@selector(appendExtraCell) forControlEvents:UIControlEventTouchUpInside];
             [cell.mapButton addTarget:self action:@selector(modalMapView) forControlEvents:UIControlEventTouchUpInside];
@@ -179,7 +179,25 @@
     NSLog(@"press append button!!!");
     
     isAppend = isAppend?NO:YES;
+    [self.collectionView reloadData];
+    if (!isAppend) return;
+    UITextView *textView = [[UITextView alloc] init];
+    NSString*myNSString = [[ShopModel sharedManager] getShopDetailInfo];
+    UIFont * labelFont = [UIFont systemFontOfSize:12];
+    UIColor * labelColor = [UIColor colorWithWhite:1 alpha:1];
     
+    NSAttributedString *labelText = [[NSAttributedString alloc] initWithString : myNSString
+                                                                    attributes : @{
+                                                                                   NSFontAttributeName : labelFont,
+                                                                                   NSForegroundColorAttributeName : labelColor }];
+    
+    [textView setAttributedText:labelText];
+    CGSize size = [textView sizeThatFits:CGSizeMake(297, FLT_MAX)];
+    
+    if(self.collectionView.contentOffset.y < size.height - 1) {
+        [self.collectionView setContentOffset:CGPointMake(0, size.height) animated:YES];
+    }
+    /*
     if(!isAppend && self.collectionView.contentOffset.y < 124) {
         [self.collectionView reloadData];
     }
@@ -192,7 +210,7 @@
             }
         }];
     }
-    
+    */
     NSLog(@"%f",self.collectionView.contentOffset.y);
     //[self.collectionView reloadData];
 }
@@ -220,9 +238,26 @@
     if(indexPath.section == 0) {
         if(indexPath.row == 0) return CGSizeMake(320, 427);
         if(indexPath.row == 1) return CGSizeMake(320, 84);
-        if(indexPath.row == 2)
-            if(isAppend) return CGSizeMake(320, 76);
+        if(indexPath.row == 2) {
+            if(isAppend) {
+                UITextView *textView = [[UITextView alloc] init];
+                NSString*myNSString = [[ShopModel sharedManager] getShopDetailInfo];
+                UIFont * labelFont = [UIFont systemFontOfSize:12];
+                UIColor * labelColor = [UIColor colorWithWhite:1 alpha:1];
+                
+                NSAttributedString *labelText = [[NSAttributedString alloc] initWithString : myNSString
+                                                                                attributes : @{
+                                                                                               NSFontAttributeName : labelFont,
+                                                                                               NSForegroundColorAttributeName : labelColor }];
+                
+                [textView setAttributedText:labelText];
+                CGSize size = [textView sizeThatFits:CGSizeMake(297, FLT_MAX)];
+                NSLog(@"height : %f",size.height);
+                return CGSizeMake(320, size.height);
+                //return CGSizeMake(320, 82);
+            }
             return CGSizeMake(320, 0);
+        }
     }
     return CGSizeMake(320, 423);
 }
