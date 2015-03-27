@@ -123,10 +123,10 @@
         array = responseObject[@"data"];
         [self.searchDisplayController.searchResultsTableView reloadData];
         
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
         //데이터 수신 실패 시, 대응 필요
     }];
     

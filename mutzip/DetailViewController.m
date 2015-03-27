@@ -279,11 +279,11 @@
             [[ShopModel sharedManager] setShop:responseObject];
             [[ShopModel sharedManager] setCurrentImageId:array[indexPath.row][@"image_id"]];
             [self showNavBarAnimated:NO];
-            [SVProgressHUD popActivity];
+            [SVProgressHUD dismiss];
             [self pushToDetailView];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
-            [SVProgressHUD popActivity];
+            [SVProgressHUD dismiss];
             //데이터 수신 실패 시, 대응 필요
         }];
     }
@@ -342,7 +342,7 @@
                            delegate:self
                            cancelButtonTitle:@"Cancel"
                            destructiveButtonTitle:nil
-                           otherButtonTitles:@"카카오톡", @"페이스북", nil];
+                           otherButtonTitles:@"카카오톡", @"페이스북",@"인스타그램", nil];
     [shareActionSheet showInView:self.view];
 }
 
@@ -367,7 +367,7 @@
     }
     
     else if(actionSheet == shareActionSheet) {
-        NSString *imageUrl = self.nowImageDict[@"image"][@"image_url"];
+        NSString *imageUrl = self.nowImageDict[@"image"][@"thumbnail_url"];
         if(buttonIndex == 0) {
             KakaoTalkLinkAction *androidAppAction
             = [KakaoTalkLinkAction createAppAction:KakaoTalkLinkActionOSPlatformAndroid
@@ -380,38 +380,29 @@
                                          execparam:nil];
             
             KakaoTalkLinkObject *button
-            = [KakaoTalkLinkObject createAppButton:@"Mutzip"
+            = [KakaoTalkLinkObject createAppButton:@"MUTzip 멋집"
                                            actions:@[androidAppAction, iphoneAppAction]];
             
             NSLog(@"image url : %@",imageUrl);
             KakaoTalkLinkObject *image
             = [KakaoTalkLinkObject createImage:imageUrl
-                                         width:150
-                                        height:200];
+                                         width:300
+                                        height:400];
             
             [KOAppCall openKakaoTalkAppLink:@[image,button]];
         }
         else if(buttonIndex == 1) {
             FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
             params.link = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
-            //params.picture = [NSURL URLWithString:@"http://1.234.20.163:8080/static/image/sample6.jpg"];
             
             // If the Facebook app is installed and we can present the share dialog
             if ([FBDialogs canPresentShareDialogWithParams:params]) {
-                NSLog(@"facebook!!!");
-                /*
-                [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                    if(error) {
-                        // An error occurred, we need to handle the error
-                        // See: https://developers.facebook.com/docs/ios/errors
-                        NSLog(@"Error publishing story: %@", error.description);
-                    } else {
-                        // Success
-                        NSLog(@"result %@", results);
-                    }
-                }];
-                */
-                 [FBDialogs presentShareDialogWithLink:[NSURL URLWithString:@"http://www.facebook.com"] name:@"title" caption:@"subtitle" description:@"내가 멋집이다" picture:[NSURL URLWithString:imageUrl] clientState:nil
+                 [FBDialogs presentShareDialogWithLink:[NSURL URLWithString:@"https://www.facebook.com/pages/Mutzip/763762900329859"]
+                                                  name:@"MUTzip"
+                                               caption:@"off-line fashion shop guide"
+                                           description:@"off-line fashion shop guide"
+                                               picture:[NSURL URLWithString:imageUrl]
+                                           clientState:nil
                                               handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
                                                   if(error) {
                                                       // An error occurred, we need to handle the error
@@ -424,11 +415,54 @@
                                               }];
 
             } else {
-                // Present the feed dialog
-                NSLog(@"can not!!");
+                [SVProgressHUD showErrorWithStatus:@"페이스북 앱이 설치되어 있지 않습니다. 페이스북 앱을 먼저 설치하세요."];
             }
         }
+        else if(buttonIndex == 2) {
+            UIImageView *dummyImageView = [[UIImageView alloc] init];
+            [dummyImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [self shareImageWithInstagramWithImage:image];
+            }];
+        }
     }
+}
+
+- (void) shareImageWithInstagramWithImage:(UIImage *)image
+{
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://"];
+    if ([[UIApplication sharedApplication] canOpenURL:instagramURL])
+    {
+        NSData* imageData = UIImagePNGRepresentation(image);
+        NSString* imagePath = [self documentDirectoryWithSubpath:@"image.igo"];
+        [imageData writeToFile:imagePath atomically:NO];
+        NSURL* fileURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"file://%@",imagePath]];
+        
+        self.docFile = [self setupControllerWithURL:fileURL usingDelegate:self];
+        self.docFile.annotation = [NSDictionary dictionaryWithObject: @"MUTzip, off-line fashion shop guide"
+                                                              forKey:@"InstagramCaption"];
+        self.docFile.UTI = @"com.instagram.photo";
+        
+        // OPEN THE HOOK
+        [self.docFile presentOpenInMenuFromRect:self.view.frame inView:self.view animated:YES];
+        
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:@"인스타그램 앱이 설치되어 있지 않습니다. 인스타그램 앱을 먼저 설치하세요."];
+    }
+}
+
+- (NSString*) documentDirectoryWithSubpath:(NSString*)subpath
+{
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    if (paths.count <= 0)
+        return nil;
+    
+    NSString* dirPath = [paths objectAtIndex:0];
+    if (subpath)
+        dirPath = [dirPath stringByAppendingFormat:@"/%@", subpath];
+    
+    return dirPath;
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
@@ -439,6 +473,23 @@
     if(result == MessageComposeResultSent) {
         [SVProgressHUD showSuccessWithStatus:@"문자전송이 완료되었습니다."];
     }
+}
+
+
+#pragma mark -- UIDocumentInteractionController delegate
+
+- (UIDocumentInteractionController *) setupControllerWithURL:(NSURL*)fileURL
+                                               usingDelegate: (id <UIDocumentInteractionControllerDelegate>) interactionDelegate
+{
+    UIDocumentInteractionController *interactionController = [UIDocumentInteractionController interactionControllerWithURL: fileURL];
+    interactionController.delegate = interactionDelegate;
+    
+    return interactionController;
+}
+
+- (void)documentInteractionControllerWillPresentOpenInMenu:(UIDocumentInteractionController *)controller
+{
+    
 }
 
 @end

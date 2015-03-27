@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 
-@interface DetailViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate,MFMessageComposeViewControllerDelegate>
+@interface DetailViewController : UIViewController<UIScrollViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIActionSheetDelegate,MFMessageComposeViewControllerDelegate,UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *shopDict;
 @property (nonatomic, strong) NSDictionary *nowImageDict;
+
+@property(nonatomic, strong)UIDocumentInteractionController *docFile;
 @end

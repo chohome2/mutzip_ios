@@ -77,10 +77,10 @@
      ];
 
     if([[MyDataModel sharedManager] isImageLike:array[page][@"image_id"]]) {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_on.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_on.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_off.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_off.png"] forState:UIControlStateNormal];
     }
 
 }
@@ -94,10 +94,10 @@
     self.likeLabel.text = [NSString stringWithFormat:@"%@", array[page][@"likes"]];
     
     if([[MyDataModel sharedManager] isImageLike:array[page][@"image_id"]]) {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_on.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_on.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_off.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_off.png"] forState:UIControlStateNormal];
     }
 
     NSLog(@"flickingStyleCut : scroll did end : %d", page);
@@ -119,10 +119,10 @@ NS_AVAILABLE_IOS(5_0){
     self.likeLabel.text = [NSString stringWithFormat:@"%@", array[page][@"likes"]];
 
     if([[MyDataModel sharedManager] isImageLike:array[page][@"image_id"]]) {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_on.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_on.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"detail_check_off.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_detail_off.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -172,11 +172,11 @@ NS_AVAILABLE_IOS(5_0){
         //[self drawCell:myImage];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
         //데이터 수신 실패 시, 대응 필요
     }];
     
-    [SVProgressHUD showSuccessWithStatus:@"My Style에 추가되었습니다."];
+    //[SVProgressHUD showSuccessWithStatus:@"My Style에 추가되었습니다."];
 }
 - (IBAction)shareSNS:(id)sender {
     [[NSNotificationCenter defaultCenter]

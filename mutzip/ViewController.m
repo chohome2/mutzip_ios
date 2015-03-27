@@ -32,6 +32,7 @@
     NSArray *array;
     CLLocationManager *manager;
     BOOL isListView;
+    BOOL isLocation;
 }
 
 - (void)viewDidLoad
@@ -45,6 +46,7 @@
     
     
     isListView = YES;
+    isLocation = NO;
     
     //네비게이션 바위에 올라가는 아이템들
     UIImageView *titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 61, 22)];
@@ -78,7 +80,10 @@
     //현재 본인 위치정보 얻어오기
     
     manager = [[CLLocationManager alloc] init];
-    [manager requestWhenInUseAuthorization];
+    if ([manager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        NSLog(@"call!!");
+        [manager requestWhenInUseAuthorization];
+    }
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
     [manager startUpdatingLocation];
@@ -106,27 +111,14 @@
                                                  name:@"reloadViewByMyStyle"
                                                object:nil];
     
-    //최초 데이터 로딩, 메인페이지용 이미지목록과 지도데이터 수신
     [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
-    AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
-    dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-    NSLog(@"%@",BASE_REST_URL_MAIN);
-    [dataManager GET:BASE_REST_URL_MAIN parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"%@",responseObject);
-        //mainImageModel에 메인노출이미지목록 저장
-        [[MainImageModel sharedManager] setMainImageList:responseObject[@"data"]];
-        
-        array = [[MainImageModel sharedManager] getMainImageList];
-        [self.collectionView reloadData];
-        [SVProgressHUD popActivity];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        [SVProgressHUD popActivity];
-        //데이터 수신 실패 시, 대응 필요
-    }];
+    [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+    
+    //최초 데이터 로딩 지도데이터 수신만 수신, 메인페이지용 이미지목록은 위치 확보후 수신
+    //[self loadListData];
     
     //지도데이터용 api 호출
-    [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
+    
     AFHTTPRequestOperationManager *mapManager = [AFHTTPRequestOperationManager manager];
     mapManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     [mapManager GET:BASE_REST_URL_MAP parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -137,7 +129,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         [SVProgressHUD popActivity];
-        //데이터 수신 실패 시, 대응 필요
     }];
 }
 
@@ -159,6 +150,29 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)loadListDataWithCoordinate:(CLLocationCoordinate2D)coordinate {
+    AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
+    dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    
+    NSString *url = BASE_REST_URL_MAIN;
+    if(isLocation) {
+        url = [url stringByAppendingFormat:@"&longitude=%f&latitude=%f",coordinate.longitude,coordinate.latitude];
+    }
+    NSLog(@"%@",url);
+    [dataManager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //NSLog(@"%@",responseObject);
+        //mainImageModel에 메인노출이미지목록 저장
+        [[MainImageModel sharedManager] setMainImageList:responseObject[@"data"]];
+        
+        array = [[MainImageModel sharedManager] getMainImageList];
+        [self.collectionView reloadData];
+        [SVProgressHUD popActivity];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [SVProgressHUD popActivity];
+    }];
 }
 
 #pragma mark - CollectionView Delegate
@@ -218,32 +232,43 @@
     [SVProgressHUD showWithStatus:@"Data Loading..." maskType:SVProgressHUDMaskTypeBlack];
     AFHTTPRequestOperationManager *dataManager = [AFHTTPRequestOperationManager manager];
     dataManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    
+    NSLog(@"%@",BASE_REST_URL_SHOP(shopId));
     [dataManager GET:BASE_REST_URL_SHOP(shopId) parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
+        //NSLog(@"%@",responseObject);
         
         [[ShopModel sharedManager] setShop:responseObject];
         [[ShopModel sharedManager] setCurrentImageId:imageId];
         [self showNavBarAnimated:NO];
         [self performSegueWithIdentifier:@"pushDetailView" sender:responseObject];
         
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
         //데이터 수신 실패 시, 대응 필요
     }];
 }
 
 #pragma mark - LocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"%@",error.debugDescription);
+    NSLog(@"no location: %@",error.debugDescription);
+    CLLocationCoordinate2D dummyCoordinate;
+    [self loadListDataWithCoordinate:dummyCoordinate];
 }
 
 - (void)locationManager:(CLLocationManager *)managers didUpdateLocations:(NSArray *)locations {
+    if (isLocation) {
+        return;
+    }
     CLLocation *location = [locations lastObject];
+    isLocation = YES;
+    NSLog(@"location !!!");
     NSLog(@"%.8f",location.coordinate.latitude);
     NSLog(@"%.8f",location.coordinate.longitude);
     [managers stopUpdatingLocation];
+    
+    [self loadListDataWithCoordinate:location.coordinate];
 }
 
 -(void)modalMapView

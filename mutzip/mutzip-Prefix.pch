@@ -25,7 +25,7 @@
 #endif
 
 
-#define BASE_REST_URL @"http://1.234.20.163:8080/api"
+#define BASE_REST_URL @"http://mutzip.net/api"
 
 #define BASE_REST_URL_MAIN [NSString stringWithFormat:@"%@/main/?app_id=%@",BASE_REST_URL,[[[UIDevice currentDevice] identifierForVendor] UUIDString]]
 #define BASE_REST_URL_MAP [NSString stringWithFormat:@"%@/map/",BASE_REST_URL]

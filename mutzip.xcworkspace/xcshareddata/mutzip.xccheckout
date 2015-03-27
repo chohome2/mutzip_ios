@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>826CDF10-8611-4C2E-9EA5-A2BD22B7ED75</string>
+	<key>IDESourceControlProjectName</key>
+	<string>mutzip</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B6B53CBEDB959A98C4B1C4F4A53B42CE2B13249B</key>
+		<string>https://github.com/chohome2/mutzip_ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>mutzip.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B6B53CBEDB959A98C4B1C4F4A53B42CE2B13249B</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/chohome2/mutzip_ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B6B53CBEDB959A98C4B1C4F4A53B42CE2B13249B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B6B53CBEDB959A98C4B1C4F4A53B42CE2B13249B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>mutzip_ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -61,6 +61,8 @@
 
 - (NSArray *)getDetailImageList {
     NSDictionary *shop = [self getShop];
+    NSInteger maxCount = [shop[@"refer"][@"grade"][@"dp_desc"] integerValue];
+    
     NSMutableArray *imageList = [[NSMutableArray alloc] init];
     NSDictionary *currentImage = [self getImageWithId:[self getCurrentImageId]];
     if(currentImage != nil) {
@@ -68,7 +70,7 @@
     }
     
     for(NSDictionary *image in shop[@"image_list"]) {
-        if(![image[@"image_id"] isEqualToString:[self getCurrentImageId]]) {
+        if(![image[@"image_id"] isEqualToString:[self getCurrentImageId]] && [image[@"order"] integerValue] <= maxCount) {
             [imageList addObject:image];
         }
     }

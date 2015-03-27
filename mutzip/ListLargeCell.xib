@@ -21,8 +21,8 @@
                         <rect key="frame" x="21" y="11" width="279" height="372"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uk-CQ-TWI">
-                        <rect key="frame" x="18" y="385" width="25" height="25"/>
-                        <state key="normal" backgroundImage="main_list_detail_check_off">
+                        <rect key="frame" x="18" y="386" width="25" height="25"/>
+                        <state key="normal" backgroundImage="checkbox_main_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -30,13 +30,13 @@
                         </connections>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Style" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtV-IT-5dV">
-                        <rect key="frame" x="44" y="387" width="57" height="21"/>
+                        <rect key="frame" x="45" y="387" width="57" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.41960784313725491" green="0.41960784313725491" blue="0.41960784313725491" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15793" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6F-NH-BhF">
-                        <rect key="frame" x="100" y="388" width="36" height="21"/>
+                        <rect key="frame" x="101" y="388" width="36" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.61960784313725492" green="0.61960784313725492" blue="0.61960784313725492" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -75,8 +75,8 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="checkbox_main_off" width="205" height="205"/>
         <image name="main_list_detail_bg" width="320" height="397"/>
-        <image name="main_list_detail_check_off" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

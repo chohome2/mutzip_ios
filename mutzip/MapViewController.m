@@ -17,6 +17,8 @@
 
 @interface MapViewController ()
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @end
 
@@ -39,18 +41,16 @@
     
     self.mapView.delegate = self;
     [self.mapView setShowsUserLocation:YES];
-    self.mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
+    
+    MKUserTrackingBarButtonItem *buttonItem = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
+    self.navItem.rightBarButtonItem = buttonItem;
+    
+
     
     mapDict = [[MapModel sharedManager] getMapList];
     
     CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(37.5225221, 127.0227997);
     MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 1000, 1000)];
-    
-    if ([self.mapView respondsToSelector:@selector(camera)]) {
-        MKMapCamera *newCamera = [[self.mapView camera] copy];
-        [newCamera setHeading:90.0]; // or newCamera.heading + 90.0 % 360.0
-        [self.mapView setCamera:newCamera animated:YES];
-    }
     
     [self.mapView setRegion:adjustedRegion animated:YES];
     
@@ -250,9 +250,15 @@
                 if([[annotation grade] isEqualToString:@"PREMIUM"] || [[annotation grade] isEqualToString:@"BASIC"]) {
                     [[self.mapView viewForAnnotation:annotation] setHidden:YES];
                 }
+                else {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:NO];
+                }
             }
             else if([annotation isKindOfClass:[MutzipAnnotation class]]) {
                 if([[annotation grade] isEqualToString:@"PREMIUM"] || [[annotation grade] isEqualToString:@"BASIC"]) {
+                    [[self.mapView viewForAnnotation:annotation] setHidden:YES];
+                }
+                else {
                     [[self.mapView viewForAnnotation:annotation] setHidden:YES];
                 }
             }

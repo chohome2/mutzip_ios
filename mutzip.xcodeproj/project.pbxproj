@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		600B6A3619EC300F000A7AF9 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 600B6A3519EC300F000A7AF9 /* FacebookSDK.framework */; };
+		60A54F361AC54A25004BBB20 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 60A54F351AC54A25004BBB20 /* README */; };
 		692412F1192207FA00BE3891 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692412F0192207FA00BE3891 /* Foundation.framework */; };
 		692412F3192207FA00BE3891 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692412F2192207FA00BE3891 /* CoreGraphics.framework */; };
 		692412F5192207FA00BE3891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692412F4192207FA00BE3891 /* UIKit.framework */; };
@@ -62,6 +63,7 @@
 		247D4C6F1281A7EDE90A9A91 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		26B4094E37C594AA11ED51D0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		600B6A3519EC300F000A7AF9 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		60A54F351AC54A25004BBB20 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		692412ED192207FA00BE3891 /* mutzip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mutzip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		692412F0192207FA00BE3891 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		692412F2192207FA00BE3891 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -218,6 +220,7 @@
 				692412F9192207FA00BE3891 /* InfoPlist.strings */,
 				692412FC192207FA00BE3891 /* main.m */,
 				692412FE192207FA00BE3891 /* mutzip-Prefix.pch */,
+				60A54F351AC54A25004BBB20 /* README */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60A54F361AC54A25004BBB20 /* README in Resources */,
 				69CE106A19484A4200DD7937 /* ListSmallCell.xib in Resources */,
 				69241309192207FA00BE3891 /* Images.xcassets in Resources */,
 				69CE106519483D1B00DD7937 /* ListLargeCell.xib in Resources */,
@@ -602,6 +606,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";
 				INFOPLIST_FILE = "mutzip/mutzip-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -622,6 +627,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -643,6 +650,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "mutzip/mutzip-Prefix.pch";
 				INFOPLIST_FILE = "mutzip/mutzip-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -663,6 +671,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

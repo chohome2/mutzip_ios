@@ -1,0 +1,39 @@
+iOS 7.0부터 지원
+보다 다양한 정보는 프로젝트 info 화면에서 확인
+
+애플계정정보
+feelmutzip@gmail.com / Fik19710331
+
+!!!cocoapods를 사용하는 프로젝트로 mutzip.xcworkspace 파일로 프로젝트를 열어야함
+
+화면구조는 Main.storyboard 에서 확인가능
+
+
+프로젝트 구조
+
+- category
+UINavigationItem+iOS7Spacing : 네이게이터패딩용category사용
+
+- annotation
+DefulatAnnotation : 지도용 기본 마커 어노테이션
+MutzipAnnotation : 지도이미지놀출용 어노테이션
+
+- model
+app 에서 사용되는 모델 모음
+기본적으로 NSUserDefault를 사용
+앱 최초 실행 시 데이터 수신 후 재활용
+
+- view
+app에서 사용되는 각종 Cell 모음
+UICollectionViewCell의 구현체임
+
+
+
+사용중인 cocoapods
+
+- AFNetworking : 네트워크 호출을 위해 사용
+- AMScrollingNavbar : 메인화면에서 스크롤 시 네이게이션 바 show/hide용으로 사용
+- CSStickyHeaderFlowLayout : collectionView에서 sticky header 구현
+- SDWebImage : image lazy loader
+- SVProgressHUD : 진행상태표시용으로 사용
+

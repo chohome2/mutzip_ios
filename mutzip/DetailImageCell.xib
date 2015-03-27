@@ -51,8 +51,8 @@
                         <size key="shadowOffset" width="-1" height="-1"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S9X-nt-Wpk">
-                        <rect key="frame" x="11" y="391" width="25" height="25"/>
-                        <state key="normal" backgroundImage="detail_check_on">
+                        <rect key="frame" x="9" y="392" width="25" height="25"/>
+                        <state key="normal" backgroundImage="checkbox_detail_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -82,7 +82,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="detail_check_on" width="25" height="25"/>
+        <image name="checkbox_detail_off" width="205" height="205"/>
         <image name="detail_icon_share" width="25" height="25"/>
         <image name="detail_img_dim" width="320" height="175"/>
         <image name="detail_popup_store" width="196" height="134"/>

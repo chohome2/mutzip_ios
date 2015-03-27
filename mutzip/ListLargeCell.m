@@ -52,10 +52,10 @@
     }];
     
     if([[MyDataModel sharedManager] isImageLike:imageDict[@"image_id"]]) {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"main_list_detail_check_on.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_main_on.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"main_list_detail_check_off.png"] forState:UIControlStateNormal];
+        [self.myStyleButton setBackgroundImage:[UIImage imageNamed:@"checkbox_main_off.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -146,7 +146,7 @@
         [self drawCell:myImage];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [SVProgressHUD popActivity];
+        [SVProgressHUD dismiss];
         //데이터 수신 실패 시, 대응 필요
     }];
 }
